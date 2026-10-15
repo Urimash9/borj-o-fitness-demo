@@ -1,0 +1,62 @@
+AVERO STUDIO — BORJÃO FITNESS
+BUILD 01 — IMPLEMENTAÇÃO CONTROLADA DA HOME
+ATUALIZAÇÃO DE REFERÊNCIA: HERO CINZA-CLARO APROVADA (DESKTOP E MOBILE)
+
+EXECUTOR: ChatGPT Work / Codex com acesso ao GitHub e ao pacote ZIP anexado.
+
+REPOSITÓRIO ÚNICO E EXATO: Urimash9/borj-o-fitness-demo
+URL: https://github.com/Urimash9/borj-o-fitness-demo
+BRANCH EXATA DE TRABALHO: build-01-home-borjao
+BRANCH PRINCIPAL: main — NÃO escrever/mergear nela durante a Build 01 sem aprovação.
+VERCEL: projeto borj-o-fitness-demo, workspace john-e7bd.
+PACOTE OBRIGATÓRIO: BORJAO_HOME_ASSETS_ORGANIZADOS_V3.zip (não usar o V2 para definir a Hero).
+
+OBJETIVO
+Construir uma HOME REAL, responsiva e funcional para Borjão Fitness a partir das composições individuais aprovadas, preservando a identidade, o ritmo e a linguagem autoral. Fotos, textos, botões, menus, carrosséis e mapas devem ser elementos HTML/CSS/JS separados. As imagens das seções são REFERÊNCIAS DE LAYOUT, não screenshots para serem usadas como blocos de página. Não gerar uma nova arte completa nem reproduzir uma página com um PNG colado.
+
+ORDEM DE EXECUÇÃO
+1) Confirme acesso ao repositório exato, à branch e ao ZIP V3. Leia LEIA_PRIMEIRO_BUILD_01.md, 04_DOCUMENTACAO/LEIA_ME_PRIMEIRO_V3.md e 04_DOCUMENTACAO/MANIFESTO_IMPLEMENTACAO_V3.json. Examine o README existente e estrutura do repositório; não apagar código preexistente. Se a branch existir, REUTILIZAR; não duplicar.
+2) Escolha stack mínima, coerente com deploy Vercel — preferencialmente Next.js + TypeScript + CSS Modules ou CSS organizado, sem bibliotecas pesadas desnecessárias. Instale apenas o necessário. Não inventar dependências inacessíveis. Defina design tokens para grafite, cinza mineral, branco e azul da identidade Borjão, tipografia com boa leitura, grids fluidos, componentes reutilizáveis e estrutura de dados separada do layout.
+3) Reconstrua as seções na ORDEM abaixo, primeiro desktop e mobile do mesmo componente. Use recortes diagonais, assimetrias, sobreposições, ritmos claro/escuro e hierarquia forte conforme referência. Não transforme tudo em cards genéricos. Não descaracterizar uma seção para ajustar fotografias — tratar os assets mantendo a composição.
+4) Faça build/lint, inicie preview Vercel pela branch, capture ou inspecione a página e compare com cada referência aprovada a 1440px, 768px, 390px e 360px. Corrija overflow, contraste, click targets e interações. Entregue link real do preview, resumo dos arquivos modificados e pendências. Não declarar pronta sem testar.
+
+FONTE DE VERDADE DA HERO — CRÍTICO
+A Hero DARK anterior foi substituída pelo último design aprovado, com FUNDO CINZA MINERAL CLARO, título grafite/preto e azul, fachada azul com recorte diagonal, foto da academia e cidade em camadas e sapinho discreto. As referências MESTRAS são:
+01_REFERENCIAS_VISUAIS/desktop/01_hero.png
+01_REFERENCIAS_VISUAIS/mobile/01_hero.png
+Elas representam a MESMA HERO, responsiva, com layout correspondente: no mobile NÃO usar a proporção desktop encolhida, nem redesign. A seção seguinte (02) é escura. Fidelidade especial à hierarquia: “HÁ MAIS DE 15 ANOS”, “A academia que movimenta Coromandel.”, “Estrutura completa, ambiente acolhedor e uma nova fase em expansão.”; botões “Falar no WhatsApp” e “Conhecer a academia”; selo “EXPANSÃO EM ANDAMENTO”. A logo da marca deve ser arquivo PNG original extraído, versão escura/azul para fundo claro, sem substituições IA. O retrato na referência é conceito visual; não afirmar ser foto real do proprietário sem prova/documento.
+
+HOME — 9 SEÇÕES + FOOTER (SEM SEÇÃO EXTRA)
+01 HERO: conforme referência cinza aprovada. Navegação funcional Início / A Academia / Modalidades / Planos / Contato e hamburguer mobile com menu acessível. CTA WhatsApp e âncora. A fachada real é protagonista; se os registros de origem não permitem reproduzir a sobreposição da imagem conceitual, mantenha a estrutura e indique a necessidade de fonte oficial, não invente fotos.
+02 A ACADEMIA: FUNDO ESCURO, “Mais de 15 anos evoluindo com a cidade.”, galeria principal salão/escada, cidade em faixa inferior, 3 indicadores em CINZA NEUTRO (15+ anos, Referência local, Em constante evolução), SEM bordas cyan/neon. Preservar recorte e contraste.
+03 ESTRUTURA E AMBIENTES: fundo mineral CLARO; heading “Estrutura para treinar com confiança.”; fotografia principal do salão grande e secundárias pesos livres/cardio, cortes geométricos; quatro pequenos ícones inferiores. No mobile foto principal + duas secundárias preservando boa proporção.
+04 MODALIDADES: faixa imersiva grafite escura, heading “Seu treino. Seu ritmo.”, seletor sincronizado com imagem/texto, navegação por toque e teclado, microcarrossel/miniaturas quando couber. Musculação e cardio conforme evidências; NÃO publicar “piscina olímpica” (erro de arte) nem declarar atividades futuras em operação. Funcional requer validação antes de anúncio como ativo. No mobile preservar interação, não empilhar 6 cards padronizados; sem falso segundo header.
+05 EXPANSÃO: fundo mineral claro, heading “O próximo movimento da Borjão já começou.”, lista de itens FUTUROS anunciados com status “Em breve”; não tratar obra conceitual gerada como foto real. O sapinho mobile aparece apenas espiando SOBRE A BORDA SUPERIOR DA FOTO INTERNA da seção, pequeno. Piscina/natação, CrossFit, quadra de areia, aulas coletivas apenas como futuros, e itens de espaços dedicados exigem confirmação.
+06 EXPERIÊNCIA E ACOLHIMENTO: fundo escuro, “Treinar bem também é se sentir acolhido.”, auxiliar aluno como IDEIA DE COMPOSIÇÃO, ícones Acolhimento / Orientação / Confiança. IMPORTANTE: remover depoimento/estrelas desta seção — decisão posterior aprovada. Sem fingir que rostos de imagem conceitual são pessoal real da Borjão.
+07 AVALIAÇÕES E CONFIANÇA: fundo mineral claro, heading “Quem treina aqui tem o que contar.”, avaliação principal em composição editorial com recortes e outras avaliações na lateral (mobile empilha com carinho). Carrossel funcional e manual, com swipe, teclado e foco; usar apenas avaliações reais com autor correto conforme fonte comprovada. Não inventar avaliações ou avaliações médias.
+08 PLANOS E MATRÍCULA: composição dark + fotografia e 5 painéis recortados (com versão mobile própria), benefícios e CTAs. VALORES OFICIAIS: Mensal R$159,99; Mensal para parentes de 1º grau R$149,99; 3 vezes por semana R$149,99; Semestral R$149,99/mês recorrente mensalmente no cartão; Anual R$139,99/mês recorrente mensalmente no cartão. Benefícios inclusos sem custo adicional: avaliação física com nutricionista; ficha de treino personalizada; aplicativo para acompanhar treinos. Não acrescentar taxa zero, fidelidade, limitação do cartão ou condição não confirmada.
+09 LOCALIZAÇÃO E CONTATO: fundo claro; heading “Seu próximo treino tem endereço.”; foto real da fachada + mapa REAL (Google Maps incorporado ou link de rota, sem mapa ilustrado se passando por cartografia real) + sapinho discreto como detalhe junto ao pin, endereço e botões “Traçar rota” e “Falar no WhatsApp”. ESTA É A ÚLTIMA SEÇÃO CTA, não criar outra seção 10.
+FOOTER: reaproveitar layout desktop aprovado: identidade, navegação, contatos e sapinho discreto, 2026 e assinatura AVERO STUDIO. No mobile disposição vertical e largura útil correta, ajustar tipografia/espaços EM HTML/CSS, não copiar margens excessivas do mockup. FADE NO TOPO de cinza mineral (seção 09) para grafite. Remover ícone YouTube não comprovado. Não criar A triangular ou marca falsa da AVERO; se SVG original indisponível, crédito somente texto “AVERO STUDIO”.
+
+CONTATOS E LINKS — NÃO INVENTAR
+Borjão Fitness; Av. Governador Israel Pinheiro, 877 — Coromandel, MG;
+WhatsApp: +55 34 99221-7673 — https://wa.me/5534992217673
+Instagram: https://www.instagram.com/borjaofitness_coro/
+Email: borjaofitness@gmail.com
+Google Maps: realizar busca pelo endereço REAL ou incorporar embed confiável; botão de rota pode usar https://www.google.com/maps/search/?api=1&query=Av.%20Governador%20Israel%20Pinheiro%2C%20877%2C%20Coromandel%20MG
+Copyright: 2026.
+
+FONTES FOTOGRÁFICAS E MARCAS
+As FOTOS de 02_FOTOS_E_FONTES_DOCUMENTAIS são os arquivos de origem selecionados (8 principais e 4 reservas, já com WebP). Reaproveitar sem repetição visual excessiva. PNGs de 01_REFERENCIAS_VISUAIS são apenas estudos de composição e contêm renderizações/construção/personagens hipotéticos. A identidade Borjão está em 03_IDENTIDADE_APENAS_REFERENCIA com dois PNGs transparentes fiéis ao recorte de baixa resolução; substituição futura por SVG original se entregue. Não recriar logotipos com IA. Fotos de gente e retrato do dono não têm garantia de ser reais/autorizados se vierem do estudo; prefira registros originais e documente ausências.
+
+CRITÉRIOS TÉCNICOS
+- Responsivo de 320px a 1920px sem overflow lateral. A Hero light 01 desktop/mobile é a única aprovada como referência principal desta seção.
+- HTML semântico, labels, alt text, tab order, foco visível, contraste; respeitar prefers-reduced-motion.
+- Sem erros build; lazy-load de fotos abaixo da dobra; imagens otimizadas; não carregar ZIP/documentação no bundle de produção.
+- Hrefs e mensagens WhatsApp por contexto; menu, seletor de modalidades e carrossel avaliações testados de fato; links externos válidos.
+- Não inventar instalações existentes, parceiros ou condições comerciais. Não introduzir design AVERO nas páginas Borjão; crédito final discreto.
+- Não redimensionar screenshots de desktop para mobile. Preservar composição individual e adaptar a estrutura em CSS.
+- Caso restrições de assets impeçam fidelidade, deixar o slot marcado sem substituir por imagem inventada. Registrar as limitações.
+
+ENTREGA DESTA BUILD
+Commit(s) somente na branch build-01-home-borjao. Preview de branch no Vercel (URL fornecida e verificada, não inventada). Capturas de desktop e mobile quando possível; checklist por seção de correspondência à referência, funcionalidades e pendências reais. Não mergear na main nem modificar outros repositórios sem aprovação explícita do usuário.

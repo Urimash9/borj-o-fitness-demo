@@ -1,0 +1,15 @@
+{
+  "name": "borjao-fitness-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "node --check src/main.js && node --check src/render.mjs && node --check src/content.mjs && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/verify.mjs",
+    "preview": "node scripts/serve.mjs",
+    "test:e2e": "node scripts/verify.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

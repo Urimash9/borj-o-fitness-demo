@@ -1,0 +1,242 @@
+[
+  {
+    "prioridade": "principal",
+    "arquivo": "01_fachada_frontal.webp",
+    "arquivo_alternativo": "01_fachada_frontal.jpg",
+    "origem": "1000035690.png",
+    "corte": [
+      0,
+      463,
+      691,
+      981
+    ],
+    "descricao": "Fachada externa e assinatura azul",
+    "uso_sugerido": "Hero alternativa / abertura institucional",
+    "fonte": "Google Maps",
+    "observacoes": "Foto histórica do cadastro; verificar atualidade da fachada",
+    "dimensoes": [
+      691,
+      518
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "02_fachada_aerea_obliqua.webp",
+    "arquivo_alternativo": "02_fachada_aerea_obliqua.jpg",
+    "origem": "1000035681.png",
+    "corte": [
+      0,
+      184,
+      691,
+      1075
+    ],
+    "descricao": "Vista aérea oblíqua com fachada e cobertura",
+    "uso_sugerido": "Hero principal candidata ou transição institucional",
+    "fonte": "Instagram",
+    "observacoes": "Não ampliar além do razoável: extraída de captura",
+    "dimensoes": [
+      691,
+      891
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "03_salao_musculacao_amplo.webp",
+    "arquivo_alternativo": "03_salao_musculacao_amplo.jpg",
+    "origem": "1000035686.png",
+    "corte": [
+      0,
+      463,
+      691,
+      983
+    ],
+    "descricao": "Plano geral de musculação, máquinas e pessoas",
+    "uso_sugerido": "Estrutura / impacto de escala",
+    "fonte": "Google Maps / avaliação",
+    "observacoes": "Pessoas reais podem aparecer; validar autorização para publicação",
+    "dimensoes": [
+      691,
+      520
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "04_musculacao_em_atividade.webp",
+    "arquivo_alternativo": "04_musculacao_em_atividade.jpg",
+    "origem": "1000035672.png",
+    "corte": [
+      0,
+      310,
+      691,
+      1300
+    ],
+    "descricao": "Visão elevada de equipamentos e treino",
+    "uso_sugerido": "Experiência e rotina",
+    "fonte": "Instagram",
+    "observacoes": "Foto extraída de vídeo, verificar se há rostos visíveis",
+    "dimensoes": [
+      691,
+      990
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "05_halteres_pesos_livres.webp",
+    "arquivo_alternativo": "05_halteres_pesos_livres.jpg",
+    "origem": "1000035668.png",
+    "corte": [
+      0,
+      312,
+      691,
+      1320
+    ],
+    "descricao": "Detalhe de halteres e treino de força",
+    "uso_sugerido": "Detalhe / ritmo editorial",
+    "fonte": "Instagram",
+    "observacoes": "Boa como card vertical, menos adequada para hero",
+    "dimensoes": [
+      691,
+      1008
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "06_cardio_com_vista.webp",
+    "arquivo_alternativo": "06_cardio_com_vista.jpg",
+    "origem": "1000035688.png",
+    "corte": [
+      0,
+      464,
+      691,
+      988
+    ],
+    "descricao": "Cardio com vista e janelões",
+    "uso_sugerido": "Estrutura e bem-estar",
+    "fonte": "Google Maps",
+    "observacoes": "Contra-luz forte na origem; preservar aparência real",
+    "dimensoes": [
+      691,
+      524
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "07_parede_logo_musculacao.webp",
+    "arquivo_alternativo": "07_parede_logo_musculacao.jpg",
+    "origem": "1000035669.png",
+    "corte": [
+      0,
+      320,
+      691,
+      1280
+    ],
+    "descricao": "Mural com logo e halteres ilustrados",
+    "uso_sugerido": "Identidade e ambientação",
+    "fonte": "Instagram",
+    "observacoes": "Área de treino real, ótimo apoio para seção de marca",
+    "dimensoes": [
+      691,
+      960
+    ]
+  },
+  {
+    "prioridade": "principal",
+    "arquivo": "08_maquinas_perspectiva.webp",
+    "arquivo_alternativo": "08_maquinas_perspectiva.jpg",
+    "origem": "1000035671.png",
+    "corte": [
+      0,
+      316,
+      691,
+      1295
+    ],
+    "descricao": "Máquinas de musculação em perspectiva",
+    "uso_sugerido": "Aparelhos / detalhes",
+    "fonte": "Instagram",
+    "observacoes": "Complementar, evitar duplicar com 03 na mesma tela",
+    "dimensoes": [
+      691,
+      979
+    ]
+  },
+  {
+    "prioridade": "reserva",
+    "arquivo": "09_fachada_aerea_frontal.webp",
+    "arquivo_alternativo": "09_fachada_aerea_frontal.jpg",
+    "origem": "1000035680.png",
+    "corte": [
+      0,
+      282,
+      691,
+      1110
+    ],
+    "descricao": "Fachada com vista aérea mais distante",
+    "uso_sugerido": "Alternativa de enquadramento / contexto da cidade",
+    "fonte": "Instagram",
+    "observacoes": "Recorte limitado para mostrar prédio sem controles do Reel",
+    "dimensoes": [
+      691,
+      828
+    ]
+  },
+  {
+    "prioridade": "reserva",
+    "arquivo": "10_escada_mural_entrada.webp",
+    "arquivo_alternativo": "10_escada_mural_entrada.jpg",
+    "origem": "1000035692.png",
+    "corte": [
+      0,
+      261,
+      628,
+      1260
+    ],
+    "descricao": "Entrada, escada e mural colorido",
+    "uso_sugerido": "Recepção / experiência",
+    "fonte": "Google Maps",
+    "observacoes": "Foto antiga; pode ganhar papel editorial",
+    "dimensoes": [
+      628,
+      999
+    ]
+  },
+  {
+    "prioridade": "reserva",
+    "arquivo": "11_area_cardio_logo_azul.webp",
+    "arquivo_alternativo": "11_area_cardio_logo_azul.jpg",
+    "origem": "1000035678.png",
+    "corte": [
+      0,
+      520,
+      691,
+      1330
+    ],
+    "descricao": "Logo sobre ambiente de cardio em luz azul",
+    "uso_sugerido": "Detalhe visual / identidade",
+    "fonte": "Instagram",
+    "observacoes": "Pode ficar escura por ser frame do vídeo",
+    "dimensoes": [
+      691,
+      810
+    ]
+  },
+  {
+    "prioridade": "reserva",
+    "arquivo": "12_apoio_banheiro_verde.webp",
+    "arquivo_alternativo": "12_apoio_banheiro_verde.jpg",
+    "origem": "1000035691.png",
+    "corte": [
+      0,
+      294,
+      691,
+      1145
+    ],
+    "descricao": "Banheiro com acabamento e frase motivacional",
+    "uso_sugerido": "Estrutura de apoio / bem-estar",
+    "fonte": "Google Maps",
+    "observacoes": "Ambiente de apoio, não precisa integrar a Home obrigatoriamente",
+    "dimensoes": [
+      691,
+      851
+    ]
+  }
+]

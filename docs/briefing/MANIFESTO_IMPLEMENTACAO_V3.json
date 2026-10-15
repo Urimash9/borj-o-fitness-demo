@@ -1,0 +1,361 @@
+{
+  "projeto": "AVERO STUDIO / DEMO BORJÃO FITNESS",
+  "edicao": "V3.0",
+  "data": "2026-10-15",
+  "tipo": "pacote de estudos visuais + fotografias + identidades derivadas de recorte + guia de implementação; NAO site pronto",
+  "contato": {
+    "nome": "Borjão Fitness",
+    "endereco": "Avenida Governador Israel Pinheiro, 877, Coromandel - MG",
+    "whatsapp_display": "(34) 99221-7673",
+    "whatsapp_e164": "5534992217673",
+    "instagram": "@borjaofitness_coro",
+    "instagram_url": "https://www.instagram.com/borjaofitness_coro/",
+    "email": "borjaofitness@gmail.com",
+    "copyright_ano": 2026,
+    "descricao": "Dados fornecidos no planejamento; confirmar no momento da publicação."
+  },
+  "planos": [
+    {
+      "name": "Mensal",
+      "display": "R$ 159,99",
+      "per_month": true,
+      "notes": "Consultar condições com equipe."
+    },
+    {
+      "name": "Mensal para parentes de 1º grau",
+      "display": "R$ 149,99",
+      "per_month": true,
+      "notes": "Desconto para parentes de primeiro grau."
+    },
+    {
+      "name": "Semestral",
+      "display": "R$ 149,99/mês",
+      "per_month": true,
+      "notes": "Cobrança mensal recorrente no cartão, sem cobrança antecipada integral."
+    },
+    {
+      "name": "Anual",
+      "display": "R$ 139,99/mês",
+      "per_month": true,
+      "notes": "Cobrança mensal recorrente no cartão, sem cobrança antecipada integral."
+    },
+    {
+      "name": "3 vezes por semana",
+      "display": "R$ 149,99",
+      "per_month": true,
+      "notes": "Frequência de três vezes na semana."
+    }
+  ],
+  "beneficios_sem_custo_adicional": [
+    "Avaliação física com nutricionista",
+    "Ficha de treino personalizada",
+    "Aplicativo para acompanhar os treinos"
+  ],
+  "secoes": [
+    {
+      "id": "01",
+      "secao": "Hero",
+      "status": "APROVADA — desktop e mobile cinza mineral claro, aprovada em 2026-10-15; substitui definitivamente a Hero escura das versões anteriores.",
+      "notas_implementacao": "Reproduzir o conceito cinza mineral claro com tipografia preta/azul e fachada como protagonista. NÃO voltar à Hero dark; nem recriar a imagem por IA. Retrato no mockup não deve ser apresentado como fotografia autêntica do proprietário sem prova. Recriar HTML/CSS por camadas com fontes reais; não usar uma única imagem de referência como site.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/01_hero.png",
+          "original": "hero_da_academia_borjão_fitness.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "2e10f4f798f7e9f80846dfb13b3ed660bb0414164159321d4b74ad02a52cac7a"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/01_hero.png",
+          "original": "borjão_fitness_movimento_e_expansão.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "345d6517116686f903e25aee3915d7dc786465a77c45fc16069b6101f7db4054",
+          "situacao": "estudo conceitual novo, usar como guia de responsividade e revisar autenticidade dos dados/visuais antes de implementar"
+        }
+      }
+    },
+    {
+      "id": "02",
+      "secao": "A Academia",
+      "status": "Desktop alinhado à composição aprovada de cartões CINZA NEUTRO; estudo mobile ainda precisa respeitar essa paleta ao implementar.",
+      "notas_implementacao": "Preservar a direção de história, foto e os três indicadores cinza neutro; validar a foto antes de publicar.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/02_a_academia.png",
+          "original": "academia_borjão_evolução_em_coromandel.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "d00e388afd7da19640cb9c2894f0b96c84949b652f1376629d247370c33d3922"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/02_a_academia.png",
+          "original": "borjão_fitness_evoluindo_com_coromandel.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "05eb736fa390ea70bd0b03187a980e1d5bc6587038b360af81113be8a06e9fbd",
+          "situacao": "estudo conceitual novo, usar como guia de responsividade e revisar autenticidade dos dados/visuais antes de implementar"
+        }
+      }
+    },
+    {
+      "id": "03",
+      "secao": "Estrutura e Ambientes",
+      "status": "Primeira direção de estrutura aprovada. Mobile 01–04 agora disponível como ESTUDO, não como aprovação de todos os textos e detalhes.",
+      "notas_implementacao": "Desktop aprovado base mineral, grande foto de academia e secundárias livres/cardio. Mobile novo é ilustrativo; utilizar as fotos documentais reais quando implementar.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/03_estrutura.png",
+          "original": "wide_graphic_design_layout_mockup_for_a_gym_websit.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "c26f54cd72f08141e4c2203f8eea6a12707f69045c1211d2667bf8c850bc47f9"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/03_estrutura.png",
+          "original": "estrutura_e_ambientes_borjão_fitness.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "daee436bc54d3600c54b19cefd7ff2c4a1e54cfb7ffb8e7537d6665316357cb0",
+          "situacao": "estudo conceitual novo, usar como guia de responsividade e revisar autenticidade dos dados/visuais antes de implementar"
+        }
+      }
+    },
+    {
+      "id": "04",
+      "secao": "Modalidades",
+      "status": "Composição B desktop APROVADA no checkpoint V1.2; não usar opção A. Mobile 01–04 agora disponível como ESTUDO, não como aprovação de todos os textos e detalhes.",
+      "notas_implementacao": "Versão B desktop aprovada. Mobile gerado exibe 6 modalidades e refere \"piscina olímpica\": NÃO TRANSFERIR ISSO AO SITE. Atuais: Musculação confirmada, Cardio área/equipamentos confirmados, Funcional a validar. Expansão como EM BREVE na seção 05; somente piscina/natação sem olímpica.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/04_modalidades.png",
+          "original": "BORJAO_MODALIDADES_V1_B.png",
+          "dimensions": [
+            1600,
+            910
+          ],
+          "sha256": "379ca0cebb23baa1a9e9e6fb7292e9c0c90501d34b81c73de73e7655b20bcf5a"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/04_modalidades.png",
+          "original": "interface_mobile_de_modalidades_fitness.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "c9c8c6c99527e88eac96e43f211febea19511af3646bce098acff7860d5de369",
+          "situacao": "estudo conceitual novo, usar como guia de responsividade e revisar autenticidade dos dados/visuais antes de implementar"
+        }
+      }
+    },
+    {
+      "id": "05",
+      "secao": "Expansão",
+      "status": "Conceito C híbrido; versão mobile com sapinho sobre borda da fotografia.",
+      "notas_implementacao": "Tratar instalações futuras como em construção/em breve; imagem conceitual não é fotografia oficial de obra.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/05_expansao.png",
+          "original": "expansão_borjão_fitness_em_andamento.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "10a77c1ca7755f15b472b10a97171a2e69540fb038d83e5647fad54901a6bc71"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/05_expansao.png",
+          "original": "anúncio_de_expansão_da_borjão.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "3661f4b1660c53f9cf5138886112e2966f6ad6c22058f6b947284f965cb66df6"
+        }
+      }
+    },
+    {
+      "id": "06",
+      "secao": "Experiência e Acolhimento",
+      "status": "Desktop e mobile aprovados COMO BASE, com ajuste cirúrgico de retirar depoimento e estrelas.",
+      "notas_implementacao": "Cena do profissional é ilustrativa até localizar foto autêntica; não passar IA por registro real.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/06_experiencia.png",
+          "original": "treino_com_acolhimento_e_confiança.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "a5399f78ca1a4716bd230fb09c78fb14e265dd9e417f2a88ff38112a5215d3de"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/06_experiencia.png",
+          "original": "treinar_bem_é_sentir_se_acolhido.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "4f2c0f9d3c76b9fa9c7652a49ecd7b7bc6712cd18d8f421d6694e34afffed9b2"
+        }
+      }
+    },
+    {
+      "id": "07",
+      "secao": "Avaliações e Confiança",
+      "status": "Estudos desktop e mobile aprovados.",
+      "notas_implementacao": "Texto, autores e navegação são dados reais renderizados em HTML; citar sem fabricar estatísticas.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/07_avaliacoes.png",
+          "original": "wide_clean_modern_website_app_landing_section_mo.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "a11b0fffa3a8058af55a5e79a5d4fd0dbb319b855be30b30b66fb00ba76f6acd"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/07_avaliacoes.png",
+          "original": "avaliações_borjão_fitness_em_destaque.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "2a6f2334e2b76661866c75799fcf89167b05bc88b1d1fa31fa1f4274671a6e88"
+        }
+      }
+    },
+    {
+      "id": "08",
+      "secao": "Planos e Matrícula",
+      "status": "Estudos com valores recebidos da equipe; base visual da etapa 08.",
+      "notas_implementacao": "Preços e condições oficiais devem vir do manifesto, não de copiar texto incerto de arte de IA.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/08_planos.png",
+          "original": "planos_borjão_fitness_comece_agora.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "92cf61d96f553019b4acabadd9880832260e10f1a91bf5dede372963d6ebb936"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/08_planos.png",
+          "original": "planos_borjão_fitness_em_destaque.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "d06c3a1ae6a235207ceaf2a290812309adb9e74280dd881ec13ba4b3140b321e"
+        }
+      }
+    },
+    {
+      "id": "09",
+      "secao": "Localização e Contato",
+      "status": "Desktop e mobile aprovados, sapinho no mapa. CTA final já inserido nesta seção.",
+      "notas_implementacao": "Mapa representado no estudo não é georreferenciado; integrar mapa/URL real, validar ponto e fachada; não criar CTA extra.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/09_localizacao.png",
+          "original": "borjão_fitness_seu_próximo_treino.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "e03ab068c8cb1dba03031ad67cfb9a26a236cd818b0779d2306999d74e8f1166"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/09_localizacao.png",
+          "original": "localização_e_contato_borjão_fitness.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "168271747ef3867276db648164bab2383e365bc6f49cf30160284b4e3b1262f4"
+        }
+      }
+    },
+    {
+      "id": "10",
+      "secao": "Footer",
+      "status": "Desktop layout aprovado; mobile base provisória, tipografia estreita e grandes vazios a ajustar no HTML.",
+      "notas_implementacao": "Aplicar fade cinza mineral → grafite; não repetir seção 09; substituir copyright 2024 por 2026 e descartar logo triangular falsa AVERO.",
+      "referencias": {
+        "desktop": {
+          "path": "01_REFERENCIAS_VISUAIS/desktop/10_footer.png",
+          "original": "rodapé_fitness_borjão_com_mascote_sapo.png",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "2c0598be5b7322d86efe6171286d2070245e9cbad254412fff4481c996f96b48"
+        },
+        "mobile": {
+          "path": "01_REFERENCIAS_VISUAIS/mobile/10_footer.png",
+          "original": "rodapé_fitness_neon_borjão.png",
+          "dimensions": [
+            941,
+            1672
+          ],
+          "sha256": "c468eb6cf94d2aef87a42b62c95404d46c1767be0b02eb5c86fb86c7e365aaf5"
+        }
+      }
+    }
+  ],
+  "alertas": [
+    "Os PNGs de referências visuais são ESTUDOS ESTÁTICOS; reconstruir elementos em HTML/CSS, nunca usar página inteira como imagem funcional.",
+    "No footer mobile, manter composição do desktop, mas aumentar escala da tipografia e eliminar bordas vazias na implementação.",
+    "O footer e os estudos podem conter logos ou copyright incorretos; usar marcas oficiais em arquivos separados.",
+    "Conteúdo do estudo da seção 06 inclui depoimento já removido por decisão posterior; retirar na implementação, preservando a cena e layout.",
+    "A imagem da academia/fachada gerada por IA em mockups não comprova aparência real atual; usar fotos documentais e autorização.",
+    "O mapa visual dos estudos não confirma geolocalização exata; integrar Maps corretamente.",
+    "Nenhum estudo de mobile correspondente foi identificado com segurança para seções 01 a 04 entre os arquivos montados; são direções responsivas a desenvolver/recuperar, NÃO criar versões aleatórias.",
+    "Não criar seção 10 como CTA. Footer é o último bloco; seção 09 já possui CTA.",
+    "Valores da equipe da Borjão prevalecem sobre qualquer texto equivocado em imagens geradas.",
+    "Fotos derivadas de prints e vídeos: solicitar alta resolução e uso autorizado para versão publicada."
+  ],
+  "alteracoes_v2": [
+    "Acrescentados 4 estudos mobile 01 a 04, sem aprovação pontual de conteúdo; utilizar como guias de composição, não como telas publicáveis.",
+    "Seção 02 desktop corrigida para referência de indicadores neutros cinza, sem bordas azuis fortes.",
+    "Dois PNGs transparentes derivados do recorte original da marca Borjão: escrita preta/azul e escrita branca/azul; sem reconstrução por IA.",
+    "Painel de referências HTML atualizado para exibir desktop e mobile de 01 a 09 e footer.",
+    "Integridade editorial: modalidade Funcional a confirmar; nunca chamar piscina de olímpica sem documentação."
+  ],
+  "identidade_borjao_derivada_de_captura": {
+    "arquivo_fonte": "03_IDENTIDADE_APENAS_REFERENCIA/borjao_logo_original_recorte.png",
+    "preta_azul": "03_IDENTIDADE_APENAS_REFERENCIA/BORJAO_LOGO_ESCURA_AZUL_TRANSPARENTE.png",
+    "branca_azul": "03_IDENTIDADE_APENAS_REFERENCIA/BORJAO_LOGO_CLARA_AZUL_TRANSPARENTE.png",
+    "nota": "Ambas são derivadas de pixels do recorte original do usuário, preservam a silhueta e fundo transparente. Fonte ainda é captura de baixa resolução; SVG oficial desejável antes da produção."
+  },
+  "integridade_obrigatoria": {
+    "logos": "NUNCA utilizar lettering inventado por gerador. AVERO: utilizar símbolo/wordmark oficial do Brand Kit, sem A triangular de IA. Borjão: usar recorte derivado até chegada do original SVG.",
+    "foto_real": "Fotografias fornecidas são de capturas; autorizações e qualidade precisam ser validadas. Mockups de IA são apenas guias de composição.",
+    "mapa": "Usar endereço e pin real no Maps. Mapa conceitual não é cartografia georreferenciada.",
+    "direcao": "Não criar seção CTA 10: a localização 09 já encerra comercialmente; só Footer após ela.",
+    "footer": "Desktop aprovado em 3 colunas, mobile adaptar tipografia/ocupação horizontal; fade suave do cinza mineral ao grafite; remover YouTube não confirmado; copyright 2026.",
+    "s06": "Remover bloco de depoimento (somente S07 reúne avaliações); manter fotografia e direções geométricas aprovadas.",
+    "precos": "Usar somente preços e condições documentados no manifesto. Não alegar limite do cartão não comprometido."
+  },
+  "alteracoes_v3": [
+    "Referência 01 desktop substituída pela Hero cinza mineral clara, aprovada em 2026-10-15.",
+    "Referência 01 mobile substituída pela Hero cinza mineral clara correspondente, aprovada em 2026-10-15.",
+    "Demais referências 02–09 e Footer mantidas intactas, incluindo imagens que têm ajustes de copy para resolver em HTML.",
+    "A colagem de homepage por gerador de imagens não é fonte de verdade; usar estudos individuais e fontes fotográficas documentais.",
+    "Branch de trabalho confirmada: Urimash9/borj-o-fitness-demo, build-01-home-borjao; Vercel projeto borj-o-fitness-demo."
+  ]
+}

@@ -2,7 +2,7 @@
 
 Demonstração de site institucional para a **Borjão Fitness**, em Coromandel–MG, com direção visual e desenvolvimento conduzidos pela **AVERO STUDIO**.
 
-> **Status:** pré-implementação. Estudos visuais são referências de design, não fotografias ou documentação fiel de obras, equipe e instalações. A construção do site deve reproduzir a direção aprovada em componentes HTML/CSS responsivos — não colocar as telas inteiras como imagens.
+> **Status:** Build 01 funcional na branch `build-01-home-borjao`, aguardando revisão desktop/mobile. Estudos visuais são referências de design, não fotografias ou documentação fiel de obras, equipe e instalações. A construção do site deve reproduzir a direção aprovada em componentes HTML/CSS responsivos — não colocar as telas inteiras como imagens.
 
 ## Objetivos
 
@@ -61,7 +61,9 @@ Não afirmar que a recorrência nunca compromete limite de cartão sem confirma�
 
 - **GitHub:** este repositório, branch principal `main`.
 - **Vercel:** projeto conectado ao GitHub, com deploys automáticos da branch principal.
-- **Próxima etapa:** integrar o pacote de assets organizado e construir a Home, preferencialmente em uma branch de desenvolvimento com preview para avaliação visual antes do merge.
+- **Implementação:** HTML/CSS/JS nativos, build estático Node, sem dependências de produção. `npm run lint`, `npm run build`, `npm run preview`.
+- **Revisão:** [QA e divergências da Build 01](docs/BUILD01-QA.md) · [Decisões de implementação](docs/BUILD01-IMPLEMENTACAO.md).
+- **Próxima etapa:** revisar preview desktop/mobile e completar os assets pendentes. Não mergear na `main` sem aceite visual.
 - **Fonte de verdade do layout:** referências visuais aprovadas e documentação de checkpoints do projeto, separadas das fotografias e dos assets finais.
 
 ---
