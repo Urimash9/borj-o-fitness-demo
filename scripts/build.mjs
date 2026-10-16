@@ -6,6 +6,7 @@ await cp('public','dist',{recursive:true});
 await cp('src/styles.css','dist/styles.css');
 await cp('src/main.js','dist/main.js');
 await cp('src/content.mjs','dist/content.mjs');
+await cp('src/media-slots.mjs','dist/media-slots.mjs');
 const html=renderHome();
 for(const match of html.matchAll(/(?:src|href)="(\/(?:assets|fonts)\/[^"?#]+)"/g)) await readFile(`dist${match[1]}`);
 await writeFile('dist/index.html',html);

@@ -3,7 +3,7 @@
 
 **Branch:** `build-02-base-visual-borjao`  
 **Origem:** `build-01-home-borjao`  
-**Status:** planejamento e documentação; implementação ainda não iniciada nesta branch.
+**Status:** etapa 01 implementada; base sem fotos documentais aguardando revisão visual. Geração e integração de novas imagens ainda não autorizadas.
 
 ### Intenção aprovada pelo cliente interno AVERO
 A primeira implementação reproduziu boa parte da estrutura da Home, porém usou as fotos originais/documentais, com aparência distinta das referências visuais tratadas e aprovadas. A intenção agora é preservar integralmente o HTML/CSS/JS aproveitável e retirar **temporariamente da renderização** as fotos documentais, mantendo espaços, recortes e geometria à espera de imagens finais com direção de arte equivalente aos estudos.
@@ -49,3 +49,11 @@ A primeira implementação reproduziu boa parte da estrutura da Home, porém uso
 
 ### Próximo passo
 Executar limpeza cirúrgica nesta branch, apresentar preview para aceite da base e **só depois** integrar cenas tratadas extraídas/reconstruídas sob direção das referências aprovadas, uma seção por vez.
+
+### Entrega da etapa 01 — 16/10/2026
+- Base preservada: `b2aceb50db1d9f0965428bb6ab2f1df27605b21b`, derivada da Build 01 `9e66eb9`.
+- 18 slots de mídia registrados, com 17 ativos por vez no DOM (painel compartilhado de modalidades).
+- Fotografias documentais retiradas apenas da renderização; originais, logos, mascote, textos comerciais e interações preservados.
+- Inventário: [MAPA_DE_MIDIAS_FINAL.md](MAPA_DE_MIDIAS_FINAL.md).
+- Evidências, escopo da comparação e divergências: [BUILD02-QA.md](BUILD02-QA.md).
+- O próximo passo depende do aceite da estrutura. Nenhuma imagem nova gerada ou integrada; nenhum merge na main.

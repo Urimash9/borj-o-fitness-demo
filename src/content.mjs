@@ -8,14 +8,15 @@ export const contact = {
 };
 export const nav = [['inicio','Início'],['academia','A Academia'],['modalidades','Modalidades'],['planos','Planos'],['contato','Contato']];
 export const footerNav = [...nav.slice(0,3),['expansao','Expansão'],['experiencia','Experiência'],['avaliacoes','Avaliações'],['planos','Planos'],['contato','Localização e Contato']];
+// Acervo documental preservado: somente registro de origem, fora da renderização da Build 02.
 export const photos = {
  facade:'01_fachada_frontal.webp', aerial:'02_fachada_aerea_obliqua.webp', room:'03_salao_musculacao_amplo.webp',
  activity:'04_musculacao_em_atividade.webp', weights:'05_halteres_pesos_livres.webp', cardio:'06_cardio_com_vista.webp',
  wall:'07_parede_logo_musculacao.webp', machines:'08_maquinas_perspectiva.webp', city:'09_fachada_aerea_frontal.webp', stairs:'10_escada_mural_entrada.webp', blue:'11_area_cardio_logo_azul.webp'
 };
 export const modalities = [
- {name:'Musculação',photo:photos.activity,alt:'Registro real da área de musculação em atividade',tagline:'Força, resistência e evolução no seu ritmo.',description:'Um ambiente preparado para acompanhar diferentes rotinas e objetivos.',icon:'dumbbell'},
- {name:'Cardio',photo:photos.cardio,alt:'Registro real do ambiente com equipamentos de cardio e vista externa',tagline:'Mais movimento para a sua rotina.',description:'Conheça a área de cardio e converse com a equipe sobre como incluir os equipamentos no seu treino.',icon:'heart'}
+ {name:'Musculação',mediaSlot:'modalidade-musculacao',tagline:'Força, resistência e evolução no seu ritmo.',description:'Um ambiente preparado para acompanhar diferentes rotinas e objetivos.',icon:'dumbbell'},
+ {name:'Cardio',mediaSlot:'modalidade-cardio',tagline:'Mais movimento para a sua rotina.',description:'Conheça a área de cardio e converse com a equipe sobre como incluir os equipamentos no seu treino.',icon:'heart'}
 ];
 // Sínteses editoriais, não transcrições. Fonte: registro de ativos V0.1 do pacote V3.
 // As capturas originais de avaliações não acompanham o ZIP; não exibir estrelas ou aspas.
