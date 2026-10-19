@@ -75,3 +75,62 @@
 /* Keep the auxiliary map link above the existing facade overlap on small screens. */
 @media(max-width:760px){.map-fallback{bottom:43px}}
 @media(max-width:760px){.map-mascot{top:12px;left:14px;right:auto}}
+
+
+/* BUILD 02 — fidelity pass 01: approved editorial proportions, no media assets. */
+/* Desktop: restore the approved alternation (03 mineral → 04 fully dark → 05 mineral),
+   stronger section hierarchy, neutral indicators and larger media compositions. */
+@media(min-width:761px){
+  .hero h1{font-size:clamp(54px,5.05vw,80px);letter-spacing:-.056em}
+  .hero .actions{gap:14px}
+  .academy-copy h2{font-size:clamp(40px,3.65vw,56px)}
+  .academy-copy p:not(.eyebrow){font-size:14px;line-height:1.55}
+  .academy-stats{width:94%;gap:14px;transform:rotate(-1.5deg)}
+  .stat{min-height:185px;background:linear-gradient(125deg,#65696ba8,#21262ac4);border-color:#a3aaad78}
+  .stat h3{font-size:clamp(16px,1.25vw,20px)}
+  .structure-grid{grid-template-rows:245px 245px}
+  .structure .section-heading{margin-bottom:30px}
+  .modalities{background:#0e1922;color:#f7f9fa;padding-top:60px}
+  .modalities .section-heading>p{color:#c5d0d6;border-left-color:#73828b}
+  .modalities .section-heading h2{font-size:clamp(42px,4vw,60px)}
+  .modality-band{background:linear-gradient(105deg,#111c25,#1d2b34 58%,#0c151e);padding-block:38px}
+  .modality-grid{grid-template-columns:23% minmax(0,1fr);gap:32px}
+  .modality-panel{grid-template-columns:minmax(0,1.55fr) minmax(230px,.85fr);gap:27px}
+  .modality-panel>figure{height:390px}
+  .modality-bottom{background:#0e1922;color:#aebdc6}
+  .modality-bottom a{color:#d9e5eb}
+  .expansion-grid{grid-template-columns:1.4fr 1fr;gap:42px}
+  .experience-grid{gap:56px}
+  .reviews-grid{gap:38px}
+  .pricing-grid{column-gap:clamp(44px,5.8vw,100px)}
+}
+/* Mobile: keep each approved composition and content order, but improve card legibility,
+   fit, and visual rhythm before bringing treated images into the reserved media slots. */
+@media(max-width:760px){
+  .academy-copy{width:81%;max-width:430px}
+  .academy-stats{gap:7px}
+  .stat{min-height:188px;padding:15px 11px;background:linear-gradient(130deg,#666b6dc2,#23292ddc);border-color:#b4bec077}
+  .stat h3{font-size:clamp(11px,3.25vw,13px);line-height:1.15}
+  .stat>p{font-size:clamp(8px,2.25vw,9px);line-height:1.4}
+  .structure-grid{grid-template-rows:clamp(290px,85vw,360px) clamp(190px,51vw,230px);gap:10px}
+  .structure-features>div{font-size:7px;letter-spacing:0;line-height:1.4}
+  .structure-features{gap:6px}
+  .modality-panel>figure{height:clamp(250px,68vw,310px)}
+  .modality-selector [role=tab],.modality-pending{min-height:56px}
+  .reviews .review-paper{min-height:325px}
+  .pricing .plan{min-height:98px}
+  .pricing .plan-list{gap:11px}
+  .pricing .benefits{padding-block:22px 20px}
+  .location-card{box-shadow:0 12px 34px #203a4a22}
+  .footer-grid{gap:31px}
+  .footer-nav>a{min-height:42px}
+}
+@media(max-width:370px){
+  .academy-copy{width:84%}
+  .stat{min-height:180px;padding:13px 8px}
+  .stat h3{font-size:11px}
+  .stat>p{font-size:8px}
+  .structure-grid{grid-template-rows:290px 190px}
+  .structure-features>div{font-size:6.5px}
+  .pricing .plan{min-height:95px}
+}
