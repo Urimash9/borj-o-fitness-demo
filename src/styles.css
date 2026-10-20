@@ -202,3 +202,102 @@
  .expansion-badge{right:clamp(190px,18vw,300px)}
  .location-art{mask-image:linear-gradient(180deg,transparent 0%,transparent 22%,#000 47%)}
 }
+
+
+/* ================================================================
+   BUILD 03A — REFINO CIRÚRGICO DE FIDELIDADE / DESKTOP
+   Referências aprovadas; sem substituir imagens e sem redesenho.
+   A geometria mobile da Build 03 permanece intocada.
+   ================================================================ */
+@media (min-width:1101px) {
+  /* 01 HERO — composição única já aprovada, tipografia em área segura. */
+  .hero{height:clamp(740px,56.25vw,880px);}
+  .hero-art{width:100%;height:100%;object-fit:cover;object-position:50% 50%;}
+  .hero-copy{padding-top:clamp(166px,11.7vw,194px);}
+  .hero-kicker{margin-bottom:19px;}
+  .hero:before{
+    background:linear-gradient(90deg,#e3e7ebf5 0%,#e3e7ebeb 24%,#e3e7eb9e 37%,transparent 56%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 66%,transparent 91%);
+  }
+  .hero .actions{gap:14px;margin-top:23px;}
+  .expansion-badge{right:clamp(35px,4.5vw,75px);top:105px;}
+  .hero-caption{background:linear-gradient(90deg,transparent,#07131d94);}
+
+  /* 03 ESTRUTURA — primeiro card dominante, dois laterais alinhados. */
+  .structure .section-heading{margin-bottom:30px;}
+  .structure-grid{
+    grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+    grid-template-rows:clamp(228px,16vw,254px) clamp(228px,16vw,254px);
+    gap:11px;
+  }
+  .structure-main{
+    grid-column:1;
+    grid-row:1/3;
+    clip-path:polygon(0 0,100% 0,84% 100%,0 100%);
+    border-radius:22px 16px 15px 15px;
+  }
+  .structure-weights{
+    grid-column:2;
+    grid-row:1;
+    margin-left:-5%;
+    clip-path:polygon(14% 0,100% 0,100% 92%,0 100%);
+    border-radius:15px;
+  }
+  .structure-cardio{
+    grid-column:2;
+    grid-row:2;
+    margin-left:-15%;
+    clip-path:polygon(16% 8%,100% 0,100% 100%,0 100%);
+    border-radius:15px;
+  }
+  .photo-card figcaption{bottom:24px;}
+  .structure-main figcaption{left:34px;}
+  .structure-weights figcaption{left:23%;}
+  .structure-cardio figcaption{left:22%;}
+  .structure-features{margin-top:27px;}
+
+  /* 09 LOCALIZAÇÃO — exibir topo do mapa e fachada inteira.
+     O asset é 1536x1024 (3:2): frame anterior 590px cortava demais.
+     Remover máscara vertical que escondia a área de mapa. */
+  .location{padding-top:59px;}
+  .location-composition{
+    height:clamp(730px,58vw,890px);
+    margin-top:-222px;
+  }
+  .location-art{
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 50%;
+    mask-image:none;
+    -webkit-mask-image:none;
+  }
+  .location-card{
+    width:clamp(440px,34vw,535px);
+    right:var(--gutter);
+    bottom:clamp(35px,3.8vw,62px);
+    padding:29px;
+  }
+  .location-composition .map-label{
+    top:42px;
+    right:var(--gutter);
+    z-index:4;
+  }
+}
+@media (min-width:761px) and (max-width:1100px) {
+  /* Tablets e notebooks compactos: mesmo asset, sem corte severo. */
+  .location-composition{
+    height:clamp(640px,69vw,780px);
+    margin-top:-120px;
+  }
+  .location-art{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 50%;
+    mask-image:none;
+    -webkit-mask-image:none;
+  }
+  .location-card{bottom:28px;}
+}
