@@ -25,7 +25,7 @@ assert.equal(Object.keys(mediaSlots).length,11);
 for(const asset of manifest.assets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
 const report={date:new Date().toISOString(),baseURL:process.env.BASE_URL||'http://127.0.0.1:4173',viewports:[],checks:[],originalAssetsVerified:originals.length,mediaSlots:11,geometryCompared:Boolean(geometryBase)};
 try{
- for(const width of [1440,1280,768,390,360,320]){
+ for(const width of [1536,1440,1280,980,768,390,360,320]){
   const page=await browser.newPage({viewport:{width,height:1000},deviceScaleFactor:1,hasTouch:width<761});
   const errors=[],failedLocal=[],requests=[];
   page.on('request',r=>requests.push(r.url()));
@@ -38,6 +38,34 @@ try{
   assert.equal(await page.locator('footer').count(),1);
   assert.equal(await page.locator('h1').count(),1);
   assert.equal(await page.locator('.plan').count(),5);
+  let compositionGeometry=null;
+  if(width>=761){
+   compositionGeometry=await page.evaluate(()=>{
+    const ratio=selector=>{const e=document.querySelector(selector),r=e.getBoundingClientRect();return {ratio:r.width/r.height,fit:getComputedStyle(e.querySelector('.section-art')).objectFit};};
+    const rail=document.querySelector('#planos').getBoundingClientRect(),scale=1536/rail.width;
+    // Independent samples of the photo/mineral boundary in the approved master.
+    const edge=y=>y<=640?1080-(1080-768)*y/640:y<=768?768+(832-768)*(y-640)/128:832-(y-768)/2;
+    const cards=[...document.querySelectorAll('.plan')].map(e=>{
+     const r=e.getBoundingClientRect(),matrix=new DOMMatrixReadOnly(getComputedStyle(e).transform);
+     let clearance=Infinity;
+     for(let step=0;step<=24;step++){
+      const t=step/24,y=(r.top-rail.top+r.height*t)*scale;
+      const x=(r.left-rail.left+Math.abs(matrix.c)*r.height*(1-t))*scale;
+      clearance=Math.min(clearance,x-edge(y));
+     }
+     return {left:r.left,top:r.top-rail.top,bottom:r.bottom-rail.top,right:r.right,clearance};
+    });
+    const grid=document.querySelector('.structure-grid').getBoundingClientRect();
+    return {hero:ratio('#inicio'),academy:ratio('#academia'),structureRatio:grid.width/grid.height,railHeight:rail.height,cards};
+   });
+   for(const key of ['hero','academy']){assert(Math.abs(compositionGeometry[key].ratio-1672/941)<.002,`${key}: master frame cropped at ${width}`);assert.equal(compositionGeometry[key].fit,'contain');}
+   assert(compositionGeometry.structureRatio>2.8,'Structure must remain horizontal');
+   compositionGeometry.cards.forEach((card,i)=>{
+    assert(card.clearance>=19,`Plan ${i+1} crosses mineral safe area at ${width}: ${card.clearance}`);
+    assert(card.top>=0&&card.bottom<=compositionGeometry.railHeight&&card.right<=width,`Plan ${i+1} outside section`);
+    if(i)assert(card.left<compositionGeometry.cards[i-1].left,'Plan edges must progress along the diagonal');
+   });
+  }
   const overflow=await page.evaluate(()=>({window:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&(r.left<-.5||r.right>innerWidth+.5)&&getComputedStyle(el).position!=='absolute'&&!el.closest('.hero,.academy,.pricing,.footer,.location,.structure-grid');}).map(el=>`${el.tagName}.${el.className}`).slice(0,15)}));
   assert(overflow.scroll<=width+1,`Horizontal overflow at ${width}: ${JSON.stringify(overflow)}`);
   assert.equal(await page.locator('a[href="#"]').count(),0);
@@ -58,7 +86,7 @@ try{
   for(const plan of await page.locator('.plan').evaluateAll(ls=>ls.map(a=>({price:a.querySelector('.plan-price strong').textContent,url:a.href}))))assert(new URL(plan.url).searchParams.get('text').includes(plan.price));
   for(const section of await page.locator('main>section').all()){await section.scrollIntoViewIfNeeded();await page.waitForTimeout(30);}
   await page.evaluate(()=>{for(const im of document.images)im.loading='eager';return Promise.all([...document.images].map(im=>im.decode().catch(()=>{})));});
-  const activeSlots=await page.locator('[data-media-slot]').evaluateAll(nodes=>nodes.map(n=>n.dataset.mediaSlot));assert.equal(new Set(activeSlots).size,10);for(const id of activeSlots)assert(id in mediaSlots,`Unknown slot ${id}`);assert.equal(await page.locator('iframe').count(),0);
+  const activeSlots=await page.locator('[data-media-slot]').evaluateAll(nodes=>nodes.map(n=>n.dataset.mediaSlot));assert.deepEqual([...new Set(activeSlots)].sort(),Object.keys(mediaSlots).sort());for(const id of activeSlots)assert(id in mediaSlots,`Unknown slot ${id}`);assert.equal(await page.locator('iframe').count(),0);
   const requestedPhotos=requests.filter(url=>Object.values(content.photos).some(name=>url.includes(name)));assert.deepEqual(requestedPhotos,[],'Old documentary images must not be requested');
   const unexpectedImages=await page.locator('img').evaluateAll(nodes=>nodes.filter(n=>!['logo-dark.png','logo-light.png'].some(name=>n.src.endsWith('/'+name))&&!n.src.includes('/assets/borjao/final-v1/')).map(n=>n.src));assert.deepEqual(unexpectedImages,[]);
   const textOverflow=await page.locator('h1,h2,h3,.button,.plan-price').evaluateAll(nodes=>nodes.filter(n=>n.scrollWidth>n.clientWidth+2).map(n=>n.textContent));assert.deepEqual(textOverflow,[],`Text overflow at ${width}`);
@@ -67,14 +95,14 @@ try{
   assert.equal(await page.locator('.mascot').count(),0,'No unvalidated black-background mascot');
   const cls=await page.evaluate(()=>window.__layoutShift);assert(cls<0.1,`Unexpected layout shift: ${cls}`);
   const broken=await page.locator('img').evaluateAll(imgs=>imgs.filter(i=>!i.complete||!i.naturalWidth).map(i=>i.src));assert.deepEqual(broken,[]);assert.deepEqual(errors,[]);assert.deepEqual(failedLocal,[]);
-  if([1440,1280,768,390,360,320].includes(width)){
+  if([1536,1440,1280,980,768,390,360,320].includes(width)){
    await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo({top:0,behavior:'instant'});});await page.screenshot({path:`${qaDir}/home-${width}.png`,fullPage:true});
    for(const id of ['inicio','academia','estrutura','modalidades','expansao','experiencia','avaliacoes','planos','contato']){await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(1,1);await page.locator(`#${id}`).screenshot({path:`${qaDir}/${id}-${width}.png`});}
    await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(1,1);await page.locator('footer').screenshot({path:`${qaDir}/footer-${width}.png`});
   }
-  console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:10,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
+  console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
  }
  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await page.goto(report.baseURL);assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');await page.close();
- report.checks=['six widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','10 integrated media nodes per view','zero documentary photo requests','no duplicated background layers or map iframe','nine sections plus footer','one h1','five official plans','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, Home/End and swipe change author','contextual WhatsApp links and plan prices','prefers-reduced-motion'];
+ report.checks=['eight widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','no duplicated background layers or map iframe','nine sections plus footer','one h1','five official plans','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, Home/End and swipe change author','contextual WhatsApp links and plan prices','prefers-reduced-motion'];
  await writeFile(`${qaDir}/results.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();localServer?.close();}
