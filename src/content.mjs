@@ -18,6 +18,14 @@ export const modalities = [
  {name:'Musculação',mediaSlot:'modalidade-musculacao',tagline:'Força, resistência e evolução no seu ritmo.',description:'Um ambiente preparado para acompanhar diferentes rotinas e objetivos.',icon:'dumbbell'},
  {name:'Cardio',mediaSlot:'modalidade-cardio',tagline:'Mais movimento para a sua rotina.',description:'Conheça a área de cardio e converse com a equipe sobre como incluir os equipamentos no seu treino.',icon:'heart'}
 ];
+// Somente as duas modalidades acima estão abertas; as novidades levam à expansão.
+export const modalityOptions = [
+ ...modalities,
+ {name:'Funcional',status:'A confirmar',icon:'dumbbell'},
+ {name:'Aulas coletivas',status:'Em breve',icon:'users'},
+ {name:'Piscina e natação',status:'Em breve',icon:'waves'},
+ {name:'Quadra de areia',status:'Em breve',icon:'sun'}
+];
 // Sínteses editoriais, não transcrições. Fonte: registro de ativos V0.1 do pacote V3.
 // As capturas originais de avaliações não acompanham o ZIP; não exibir estrelas ou aspas.
 export const reviews = [
