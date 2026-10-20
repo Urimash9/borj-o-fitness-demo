@@ -341,3 +341,20 @@ Build 02 / etapa 01 · 16/10/2026 · branch `build-02-base-visual-borjao`.
 Esta é uma estrutura de preparação, não uma nova aprovação visual dos estudos. Permanecem sem cena final a Hero composta, a faixa urbana, os ambientes, a cena de expansão, o profissional/aluno e os planos com imagem humana. Os fundos neutros mostram o volume/recorte reservado; não reproduzem o tratamento fotográfico final. O mapa está temporariamente estilizado, com rotas reais preservadas.
 
 A próxima fase só começa depois do aceite desta base. Não há autorização nesta entrega para gerar, integrar imagens ou mergear na main.
+
+## Atualização Build 03 — 19/10/2026
+
+O inventário anterior documenta a preparação Build 02 e não representa o estado atual de renderização. O pacote aprovado reúne os antigos slots em composições únicas. Fontes efetivamente integradas e hashes: `docs/assets-build03/MANIFESTO_ASSETS_BUILD03.json` e `src/media-slots.mjs`.
+
+| Slots anteriores | Mídia integrada Build 03 |
+| --- | --- |
+| hero-ambiente/cidade/fachada/humano | hero-composicao (uma imagem) |
+| academia-salao/escada/cidade | academia-composicao (uma imagem) |
+| estrutura-principal/pesos/cardio | três imagens dedicadas |
+| modalidade-musculacao/cardio | dois assets no painel compartilhado |
+| expansao-cena | expansao-obra dentro do frame |
+| experiencia-ambiente/humana | experiencia-composicao (uma imagem) |
+| planos-humano | planos-composicao (inclui diagonal) |
+| localizacao-fachada/mapa | localizacao-composicao (uma imagem, rotas em HTML) |
+
+Todos usam os nomes exatos do pacote em `/assets/borjao/final-v1/`. Não há variantes mobile no pacote: `mobile.source` permanece nulo como pendência documental, enquanto o navegador enquadra o master desktop existente por CSS. Não cria requests de arquivos futuros. Lista das variantes/artes ainda necessárias e comparação: [BUILD03-QA.md](BUILD03-QA.md).

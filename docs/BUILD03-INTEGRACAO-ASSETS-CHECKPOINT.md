@@ -38,3 +38,9 @@ O pacote ZIP `BORJAO_BUILD03_ASSETS_APROVADOS.zip` foi criado com 11 mídias Web
 3. Vincular CSS/render/mediaSlots e atualizar seletor de Modalidades sem quebra de ARIA, transições e links.
 4. Executar lint, build, QA visual desktop/mobile e publicar preview de **Build 03**.
 5. Documentar divergências e aguardar aceite antes de merge.
+
+## Execução da integração — 19/10/2026 (São Paulo)
+
+O estado inicial descrito acima é histórico. Pacote recebido e integrado na branch Build 03 a partir de `eebbe415f1a8294e9636574711ec773a9a167be4`. Onze WebP e duas logos transferidos sem alteração para `public/assets/borjao/final-v1/`. Composições únicas aplicadas, conteúdo nativo preservado e modalidades sincronizadas. Identificação conceitual discreta; fonte de mascote com fundo preto desativada, sem apagar originais.
+
+Verificação e divergências por seção: [BUILD03-QA.md](BUILD03-QA.md). Aprovação visual do usuário permanece pendente, especialmente variantes mobile e lettering dentro das artes fornecidas. Nenhuma nova arte foi gerada. Sem merge e sem alteração de outras branches.

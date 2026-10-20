@@ -1,0 +1,54 @@
+AVERO STUDIO — BORJÃO FITNESS
+BUILD 03 — INTEGRAÇÃO DOS ASSETS TRATADOS APROVADOS
+
+REPOSITÓRIO: Urimash9/borj-o-fitness-demo
+BRANCH: build-03-assets-aprovados
+VERCEL: borj-o-fitness-demo
+
+ANEXO: BORJAO_BUILD03_ASSETS_APROVADOS.zip
+
+OBJETIVO:
+Integrar as imagens WebP deste ZIP na Home atual, recuperando a fidelidade à direção de arte das referências visuais aprovada. Não redesenhar a página, não trocar dados ou textos e não usar imagens dos mockups como screenshots integrais.
+
+ANTES:
+1. Abrir a branch indicada. Ler docs/BUILD02-BASE-VISUAL-CHECKPOINT.md, docs/MAPA_DE_MIDIAS_FINAL.md e o manifesto deste ZIP.
+2. Verificar a estrutura real em src/render.mjs, src/styles.css, src/media-slots.mjs, src/content.mjs e src/main.js.
+3. Fazer checkpoint de commit. Nunca alterar main nem Build 01/02.
+4. Copiar public/assets/borjao/final-v1 deste ZIP para exatamente o mesmo caminho no repositório.
+
+MAPA EXATO DE INTEGRAÇÃO:
+01 HERO: usar borjao-s01-hero-composicao-desktop.webp como UMA composição de fundo. Header, H1, textos e dois botões reais por cima; evitar duplicar diagonais, céu, cidade, fachada ou sapinho que já estão na imagem. Preservar Hero cinza claro.
+02 A ACADEMIA: usar borjao-s02-academia-composicao-desktop.webp como UMA base visual de fundo. Preservar H2, texto e três cards cinza em HTML; não duplicar cidade/escada.
+03 ESTRUTURA: usar borjao-s03-estrutura-salao-desktop.webp na área maior; pesos e cardio nos dois cards menores. Manter textos, setas, ícones e recortes em HTML/CSS. Ajustar curva superior suave e proporções sem redesenho.
+04 MODALIDADES: usar borjao-s04-modalidade-musculacao-desktop.webp no painel da modalidade Musculação e borjao-s04-modalidade-cardio-desktop.webp em Cardio. Sincronizar foto, textos, seta/teclado e ARIA com src/main.js. Não divulgar outras modalidades como abertas sem confirmação.
+05 EXPANSÃO: usar borjao-s05-expansao-obra-desktop.webp DENTRO DO FRAME EDITORIAL, não no fundo de toda a seção. Aplicar fade suave para a direita com CSS, prolongando a imagem debaixo do gradiente. Manter EM BREVE como texto HTML e grupos informativos ao lado. Tratar obra da imagem como ilustração conceitual, não documentação.
+06 EXPERIÊNCIA: usar borjao-s06-experiencia-acolhimento-desktop.webp como a ÚNICA imagem composta de fundo, com texto e ícones nativos à esquerda. Não criar segunda avaliação nem colocar outra imagem no slot da pessoa. Sem crop que corte orientador/aluna.
+07 AVALIAÇÕES: manter editorial HTML e resumos existentes; não incluir fotografias ou inventar depoimentos/estrelas.
+08 PLANOS: usar borjao-s08-planos-composicao-desktop.webp como o fundo da seção. Cinco cards, preços, benefícios, textos e CTAs continuam inteiramente em HTML. Não duplicar a diagonal porque ela já está na composição.
+09 LOCALIZAÇÃO: usar borjao-s09-localizacao-composicao-desktop.webp como composição de fundo (fachada + mapa ilustrativo + diagonal). Não duplicar mapa nem fachada via outros slots. Reencaixar card branco do endereço embaixo à direita. Manter links reais de mapa/rota, sem afirmar que mapa conceitual reproduz a geografia exata.
+FOOTER: preservar o layout existente, sem fotos novas. Corrigir apenas mascote/posicionamento se houver PNG transparente oficial válido.
+
+REGRAS DE BRAND:
+- Logos do site devem permanecer as artes oficiais (imagens geradas podem conter artefatos). Não desenhar novo BJ/RJ, não usar ponto vermelho inexistente ou lettering falso.
+- Não inventar dados, contatos, modalidades e planos.
+- Se uma marca dentro de foto conceitual estiver incorreta, identificar para correção de arte em vez de inventar logo sobre a foto.
+- Preservar 5 planos e cobrança semestral/anual mensal recorrente no cartão.
+- Sapinho sem fundo preto. Não colar a imagem de referência original com retângulo visível.
+
+RESPONSIVIDADE:
+- Desktop 1440 e 1280 primeiro, fiel à composição das referências.
+- Mobile 390/360/320: ajustar background-size, background-position, estrutura e legibilidade sem trocar fontes/identidade. Se um asset horizontal não comportar a composição mobile aprovada, documentar que é necessária variante vertical; não forçar crop que prejudique o conteúdo.
+
+TESTES:
+- npm run lint; npm run build; npm run test:e2e (quando Playwright/Chromium disponíveis).
+- Confirmar todos os WebP no caminho esperado, sem 404, sem layout shift ou overflow horizontal.
+- Navegação, seletor de modalidades, avaliações, todos CTAs, links WhatsApp e Maps.
+- Comparar lado a lado com as referências desktop/mobile das seções correspondentes.
+- Revisar acessibilidade, contraste e reduced-motion.
+
+ENTREGA:
+- Commit(s) na branch indicada e preview Vercel real dessa branch.
+- Capturas desktop e mobile.
+- Quadro seção a seção: igual / aproximação / ainda depende de arte vertical ou logo.
+- Arquivos editados e pendências de identidade/arte.
+- NÃO fazer merge para main sem aceite explícito.

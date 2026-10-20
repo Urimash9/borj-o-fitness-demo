@@ -1,0 +1,150 @@
+{
+  "project": "AVERO STUDIO / Borjão Fitness",
+  "build": "03 - integração dos assets tratados",
+  "reference": "referências visuais de desktop/mobile já aprovadas; sem redesign",
+  "branch": "build-03-assets-aprovados",
+  "status": "arte conceitual organizada; homologação no navegador pendente",
+  "photosAreConceptual": true,
+  "manifestVersion": "1.0",
+  "assetCount": 11,
+  "assets": [
+    {
+      "section": "01",
+      "name": "hero-composicao",
+      "file": "/assets/borjao/final-v1/borjao-s01-hero-composicao-desktop.webp",
+      "source": "a_wide_cinematic_modern_promotional_collage_comp.png",
+      "mediaType": "fundo-secao",
+      "width": 1672,
+      "height": 941,
+      "sha256": "cd1b641acc580625a840353f63fe0dd2bf2ddff9fe3fafe0400517df41a72e1b",
+      "usage": "background amplo sem textos; a tipografia/CTA e o header permanecem HTML",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "02",
+      "name": "academia-composicao",
+      "file": "/assets/borjao/final-v1/borjao-s02-academia-composicao-desktop.webp",
+      "source": "academia_moderna_sobre_a_cidade_ao_entardecer.png",
+      "mediaType": "fundo-secao",
+      "width": 1672,
+      "height": 941,
+      "sha256": "96ee14b1043af7cb3ed2a4f8cfb6d71ccd5333e96a6dc23dd94c4424970a0ded",
+      "usage": "fundo único sem cards; os três cards e texto permanecem HTML",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "03",
+      "name": "estrutura-salao",
+      "file": "/assets/borjao/final-v1/borjao-s03-estrutura-salao-desktop.webp",
+      "source": "academia_moderna_borjão_fitness.png",
+      "mediaType": "card-principal",
+      "width": 1586,
+      "height": 992,
+      "sha256": "6ecdfd51cf6456542f73c45cef50e9f4a79e1a5a35d4e8185eec99c308b1bf69",
+      "usage": "foto principal esquerda; clip suave e legenda HTML",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "03",
+      "name": "estrutura-pesos",
+      "file": "/assets/borjao/final-v1/borjao-s03-estrutura-pesos-desktop.webp",
+      "source": "halteres_metálicos_em_foco_no_ginásio.png",
+      "mediaType": "card-secundario",
+      "width": 1672,
+      "height": 941,
+      "sha256": "a8dc1ed099dea1a961273722e1fdffe73905c1463afd86e4f03009f62e53f474",
+      "usage": "card superior direito; legenda HTML",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "03",
+      "name": "estrutura-cardio",
+      "file": "/assets/borjao/final-v1/borjao-s03-estrutura-cardio-desktop.webp",
+      "source": "academia_moderna_com_esteiras_panorâmicas.png",
+      "mediaType": "card-secundario",
+      "width": 1672,
+      "height": 941,
+      "sha256": "70c1c418ac552c450638e5783733d8c28364582ff1be8e2b7233ade6358fdd69",
+      "usage": "card inferior direito; legenda HTML",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "04",
+      "name": "modalidade-musculacao",
+      "file": "/assets/borjao/final-v1/borjao-s04-modalidade-musculacao-desktop.webp",
+      "source": "treino_intenso_na_borjão_fitness.png",
+      "mediaType": "painel-modalidade",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "f735929efe01016d33aa8fd534941c9e818f34da346c911042c0a8e9db7d049c",
+      "usage": "painel principal interativo na opção Musculação; conferir logo na parede",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "04",
+      "name": "modalidade-cardio",
+      "file": "/assets/borjao/final-v1/borjao-s04-modalidade-cardio-desktop.webp",
+      "source": "academia_moderna_com_esteiras_panorâmicas.png",
+      "mediaType": "painel-modalidade",
+      "width": 1672,
+      "height": 941,
+      "sha256": "70c1c418ac552c450638e5783733d8c28364582ff1be8e2b7233ade6358fdd69",
+      "usage": "painel principal interativo na opção Cardio",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "05",
+      "name": "expansao-obra",
+      "file": "/assets/borjao/final-v1/borjao-s05-expansao-obra-desktop.webp",
+      "source": "construção_da_borjão_fitness.png",
+      "mediaType": "imagem-editorial",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "beb7600b31471bbb4493c3c8f12b77223d5f39a46d77b88c1331497c295cf0bb",
+      "usage": "imagem dentro do frame, fade suave no lado direito via CSS; EM BREVE permanece HTML; arte conceitual",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "06",
+      "name": "experiencia-acolhimento",
+      "file": "/assets/borjao/final-v1/borjao-s06-experiencia-acolhimento-desktop.webp",
+      "source": "treino_profissional_na_borjão_fitness.png",
+      "mediaType": "fundo-secao",
+      "width": 1672,
+      "height": 941,
+      "sha256": "f8eafd6fe616148e35c30331997c84b64ff94db721d910f4bad858cdd2a51313",
+      "usage": "composição dark com área segura à esquerda; manter títulos/ícones em HTML, sem quote duplicada",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "08",
+      "name": "planos-composicao",
+      "file": "/assets/borjao/final-v1/borjao-s08-planos-composicao-desktop.webp",
+      "source": "treino_premium_com_acentos_azuis.png",
+      "mediaType": "fundo-secao",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "db364a944f908708937506c0397845656ef3d485edb5a9711169f34a484b891b",
+      "usage": "fundo diagonal + cena humana; planos/cards/preços/benefícios por cima em HTML",
+      "status": "arte-conceitual-para-demo"
+    },
+    {
+      "section": "09",
+      "name": "localizacao-composicao",
+      "file": "/assets/borjao/final-v1/borjao-s09-localizacao-composicao-desktop.webp",
+      "source": "fachada_borjão_fitness_com_mapa_urbano.png",
+      "mediaType": "fundo-secao",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "8247e34a36c014c1bc12a14ab8864ecfeb9e0a2aaa921f57fcaf292c612c2392",
+      "usage": "mapa ilustrativo + fachada numa única imagem; card de contato real e rotas em HTML",
+      "status": "arte-conceitual-para-demo"
+    }
+  ],
+  "exclusions": [
+    "07 Avaliações: componentes nativos em HTML sem mídia obrigatória",
+    "Footer: componentes nativos em HTML",
+    "Sapinho: não incluir imagem com fundo preto; usar PNG recortado original validado antes de aplicar",
+    "Mobile: não esticar nem encaixar desktop por proporção arbitrária; integrar desktop primeiro e validar crops no mobile"
+  ]
+}
