@@ -428,3 +428,206 @@
   .experience-quote figcaption{font-size:10px;font-weight:650;margin-top:12px;}
   .experience-quote figcaption span{font-weight:400;color:#bccbd4;}
 }
+
+
+/* ====================================================================
+   BUILD 03A.2 — AJUSTES FINOS DE ENQUADRAMENTO / DESKTOP
+   Não substituir ativos aprovados nem redesenhar a Home.
+   Estas regras sobrepõem apenas a geometria de desktop (>=761px).
+   ==================================================================== */
+@media (min-width:761px) {
+  /* 01 HERO — master de 1672x941; preservar TODAS as bordas da arte.
+     Antes: altura mínima 740px mesmo num viewport de 980px,
+     obrigando object-fit:cover a amputar Fabrício e sapinho à direita. */
+  .hero {
+    height:auto;
+    min-height:0;
+    aspect-ratio:1672 / 941;
+  }
+  .hero-art {
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center center;
+  }
+  .hero-copy {
+    padding-top:clamp(130px,12.8vw,196px);
+  }
+  .hero:before {
+    /* Restrição luminosa sobre a área do texto, sem lavrar a fachada
+       nem apagar o grupo de pessoas na faixa superior. */
+    background:linear-gradient(90deg,
+      #e7ebeff5 0%, #e7ebefee 21%,#e7ebefda 29%,
+      #e7ebefb8 37%,#e7ebef55 45%,transparent 53%);
+    mask-image:linear-gradient(180deg,transparent 0%,#000 23%,#000 72%,transparent 97%);
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 23%,#000 72%,transparent 97%);
+  }
+  .hero h1 {font-size:clamp(43px,4.6vw,72px);line-height:.96;}
+  .hero .actions {margin-top:clamp(15px,1.7vw,23px);}
+  .hero-intro {line-height:1.35;}
+
+  /* 02 ACADEMIA — cards com blur neutro, mas completamente opacos
+     o suficiente para NÃO revelar nitidamente a cidade ao fundo. */
+  .academy .stat {
+    background:linear-gradient(125deg,rgba(47,50,53,.97),rgba(24,27,31,.98));
+    border:1px solid rgba(185,193,199,.56);
+    box-shadow:0 13px 26px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.09);
+    backdrop-filter:blur(28px) saturate(.65);
+    -webkit-backdrop-filter:blur(28px) saturate(.65);
+  }
+  .academy .stat .stat-top {border-bottom-color:rgba(199,204,208,.38);}
+  .academy .stat>p {color:#eef0f2;}
+
+  /* 03 ESTRUTURA — menor faixa mineral entre os três recortes;
+     curvatura superior mais evidente e terceira foto conectada ao grid. */
+  .structure-grid {
+    grid-template-columns:minmax(0,2.15fr) minmax(0,1fr);
+    grid-template-rows:repeat(2,clamp(205px,17vw,253px));
+    gap:8px;
+    isolation:isolate;
+  }
+  .structure-grid .photo-card {
+    border-radius:24px 24px 15px 15px;
+    backface-visibility:hidden;
+    transform:translateZ(0);
+  }
+  .structure-main {
+    grid-column:1;grid-row:1/3;
+    clip-path:polygon(0 0,100% 0,86% 100%,0 100%);
+    border-radius:25px 22px 18px 18px;
+  }
+  .structure-weights {
+    grid-column:2;grid-row:1;
+    margin-left:-14%;
+    clip-path:polygon(16% 0,100% 0,100% 93%,0 100%);
+    border-radius:24px 18px 17px 17px;
+  }
+  .structure-cardio {
+    grid-column:2;grid-row:2;
+    margin-left:-23%;
+    clip-path:polygon(18% 7%,100% 0,100% 100%,0 100%);
+    border-radius:25px 21px 17px 17px;
+  }
+  .structure-main figcaption {left:clamp(24px,2.5vw,36px);}
+  .structure-cardio figcaption {left:22%;}
+  .structure-weights figcaption {left:21%;}
+
+  /* 04 MODALIDADES — deixar a imagem imersiva, não uma peça
+     retangular avulsa. Com apenas dois treinos confirmados,
+     suprimir a segunda faixa redundante de thumbnails. */
+  .modality-previews {display:none;}
+  .modality-grid {grid-template-columns:minmax(175px,20%) minmax(0,1fr);gap:clamp(16px,2vw,30px);}
+  .modality-panel {
+    grid-template-columns:minmax(0,1.9fr) minmax(190px,.83fr);
+    gap:clamp(10px,1.5vw,22px);
+    align-items:center;
+  }
+  .modality-panel>figure {
+    height:clamp(370px,35vw,520px);
+    border-radius:0;
+    overflow:hidden;
+    background:transparent;
+    clip-path:none;
+  }
+  .modality-panel>figure>.integrated-media {
+    width:100%;height:100%;
+    object-fit:cover;object-position:center 41%;
+    mask-image:linear-gradient(90deg,transparent 0%,#000 11%,#000 80%,transparent 100%);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 11%,#000 80%,transparent 100%);
+  }
+  .modality-panel figcaption {z-index:2;}
+  .modality-bottom {padding-top:18px;}
+
+  /* 05 EXPANSÃO — fade real de alfa ao fundo mineral.
+     A máscara trabalha só na foto, não no título "EM BREVE". */
+  .construction-slot {
+    clip-path:none;
+    border-radius:12px 0 0 12px;
+    overflow:hidden;
+    background:var(--mineral);
+  }
+  .construction-slot>.integrated-media {
+    object-fit:cover;
+    object-position:left center;
+    mask-image:linear-gradient(to right,
+      #000 0%,#000 53%,rgba(0,0,0,.97) 62%,
+      rgba(0,0,0,.73) 75%,rgba(0,0,0,.34) 89%,
+      transparent 100%);
+    -webkit-mask-image:linear-gradient(to right,
+      #000 0%,#000 53%,rgba(0,0,0,.97) 62%,
+      rgba(0,0,0,.73) 75%,rgba(0,0,0,.34) 89%,
+      transparent 100%);
+  }
+  .construction-slot:after {background:linear-gradient(0deg,rgba(7,17,25,.64),transparent 52%);}
+
+  /* 08 PLANOS — todos os preços inteiramente na coluna mineral,
+     sem atravesar o rosto nem a figura à esquerda. */
+  .pricing-grid {
+    grid-template-columns:minmax(0,49%) minmax(0,51%);
+    column-gap:0;
+  }
+  .plan-list {
+    min-width:0;width:auto;
+    padding-left:clamp(20px,3.6vw,60px);
+    padding-right:0;
+    gap:clamp(10px,1.1vw,16px);
+    align-self:center;
+  }
+  .plan-list .plan {
+    min-width:0;
+    min-height:clamp(103px,8.9vw,122px);
+    margin-left:0;
+    margin-right:0;
+    border-radius:9px;
+    transform:skewX(-5deg);
+  }
+  .plan-list .plan:nth-child(1) {margin-left:13px;}
+  .plan-list .plan:nth-child(2) {margin-left:7px;}
+  .plan-list .plan:nth-child(3) {margin-left:0;}
+  .plan-list .plan:nth-child(4) {margin-left:7px;}
+  .plan-list .plan:nth-child(5) {margin-left:13px;}
+  .plan-list .plan-copy,
+  .plan-list .plan-price>div,
+  .plan-list .plan-price>p,
+  .plan-list .plan-price>span {transform:skewX(5deg);}
+  .plan-list .plan-copy {padding-left:clamp(13px,1.5vw,22px);padding-right:8px;}
+  .plan-list .plan-price {padding-right:clamp(24px,2.3vw,33px);}
+  .plan-list .plan-arrow {right:7px;}
+
+  /* 09 LOCALIZAÇÃO — manter a fachada e o mapa aprovados.
+     Card mais integrado, editorial, sem alterar dados reais. */
+  .location-card {
+    background:#fefefe;
+    border:1px solid #ffffffde;
+    border-radius:24px;
+    width:clamp(405px,36vw,548px);
+    padding:clamp(24px,2.2vw,34px);
+    right:clamp(26px,4.3vw,75px);
+    bottom:clamp(32px,4.4vw,62px);
+    box-shadow:0 24px 60px rgba(21,49,65,.19);
+  }
+  .location-card .address-heading {gap:17px;}
+  .location-card .address-heading h3 {font-size:clamp(23px,2.2vw,31px);}
+  .location-card .actions {gap:11px;}
+  .location-card .actions .button {white-space:nowrap;}
+}
+@media (min-width:761px) and (max-width:1100px) {
+  /* O usuário vê o desktop no Android com viewport virtual ~980px. */
+  .hero-copy {padding-top:clamp(115px,13vw,143px);}
+  .hero h1 {font-size:clamp(40px,4.7vw,52px);}
+  .hero .actions {gap:10px;}
+  .hero:before {background:linear-gradient(90deg,
+    #e7ebeffa 0%,#e7ebeff2 26%,#e7ebefb8 36%,#e7ebef51 45%,transparent 55%);}
+  .structure-grid {grid-template-rows:repeat(2,clamp(186px,21vw,239px));}
+  .modality-grid {grid-template-columns:minmax(160px,21%) minmax(0,1fr);}
+  .modality-panel {grid-template-columns:minmax(0,1.55fr) minmax(150px,.7fr);}
+  .modality-panel>figure {height:clamp(340px,42vw,453px);}
+  .plan-list {padding-left:clamp(22px,3.3vw,39px);gap:10px;}
+  .plan-list .plan {min-height:98px;grid-template-columns:1.08fr .92fr;}
+  .plan-list .plan h3{font-size:clamp(12px,1.55vw,17px);}
+  .plan-list .plan-price strong{font-size:clamp(19px,2.55vw,27px);}
+  .plan-list .plan-copy>.icon{width:31px;height:31px;min-width:31px;padding:6px;}
+  .plan-list .plan-price{padding:12px 26px 12px 10px;}
+  .location-card {width:clamp(365px,43vw,450px);right:24px;bottom:25px;padding:22px;}
+}
