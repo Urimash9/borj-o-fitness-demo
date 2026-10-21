@@ -365,7 +365,14 @@
 .location .location-art {top:auto;bottom:-5.5cqw;left:0;width:100%;height:auto;max-width:none;aspect-ratio:3 / 2;object-fit:contain;object-position:center bottom;}
 .location-visual:after {content:"";position:absolute;inset:0;background:linear-gradient(180deg,#e9eceff5 0%,#e9eceff2 33%,#e9ecefb3 39%,transparent 46%);mask-image:linear-gradient(90deg,#000 46%,transparent 64%);pointer-events:none;}
 .location-map-window {display:none;}
-.map-mascot-slot {position:absolute;top:22%;right:18%;width:5cqw;height:7cqw;pointer-events:none;}
+/* O slot acompanha a área do mapa; a arte oficial mantém sua base azul original. */
+.map-mascot-slot {position:absolute;z-index:2;top:0;right:0;width:40%;height:58%;container-type:inline-size;pointer-events:none;}
+.map-brand-marker {position:absolute;top:40%;left:37%;width:44%;display:grid;grid-template-columns:42% 58%;align-items:center;isolation:isolate;}
+.map-mascot {position:relative;z-index:1;display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;}
+.map-marker-shadow {position:absolute;left:7%;bottom:6%;width:28%;aspect-ratio:3 / 1;border:1px solid #009bf01c;border-radius:50%;background:radial-gradient(ellipse,#009bf022,#009bf008 62%,transparent 72%);}
+.map-marker-shadow:after {content:"";position:absolute;inset:-18%;border:1px solid #009bf012;border-radius:50%;}
+.map-logo-plaque {position:relative;z-index:1;display:block;min-width:0;padding:6% 7%;border-radius:1.8cqw;background:#fff;box-shadow:0 .9cqw 2cqw #2339481c;}
+.map-logo-plaque img {display:block;width:100%;height:auto;aspect-ratio:3 / 1;object-fit:contain;}
 .map-label {position:absolute;z-index:1;top:4.2cqw;right:2.7cqw;display:flex;align-items:center;gap:.6cqw;padding:.9cqw 1.4cqw;background:#fff;border-radius:3cqw;box-shadow:0 .3cqw 1cqw #2339481a;font-size:.9cqw;font-weight:650;}
 .map-label>.icon {width:1.4cqw;height:1.4cqw;color:var(--blue);}
 .map-label>.icon:last-child {width:1cqw;height:1cqw;}
@@ -464,7 +471,8 @@
  .location-visual {position:relative;inset:auto;width:100%;aspect-ratio:1100 / 699;margin-top:-12px;mask-image:none;}
  .location .location-art {width:139.636%;left:0;bottom:0;}
  .location-visual:after {display:none;}
- .map-mascot-slot {top:65px;right:28%;width:45px;height:60px;}
+ .map-mascot-slot {top:0;right:16px;width:calc(100% - 32px);height:auto;aspect-ratio:1.5;}
+ .map-brand-marker {top:37%;left:42%;width:40%;}
  .map-label {top:14px;right:28px;font-size:10px;gap:7px;padding:10px 13px;border-radius:25px;}
  .map-label>.icon {width:16px;height:16px;}.map-label>.icon:last-child {width:13px;height:13px;}
  .location-card {position:relative;isolation:auto;inset:auto;width:calc(100% - 24px);margin:-24px 12px 0;padding:20px;border:1px solid #fff;border-radius:16px;background:#fffffff7;box-shadow:0 10px 25px #23394814;filter:none;}

@@ -21,6 +21,12 @@ const originals=execFileSync('git',['ls-tree','-r','b2aceb50db1d9f0965428bb6ab2f
 for(const line of originals){const [info,file]=line.split('\t');const expected=info.split(' ')[2];assert.equal(execFileSync('git',['hash-object',file],{encoding:'utf8'}).trim(),expected,`${file} changed`);}
 const manifest=JSON.parse(await readFile('docs/assets-build03/MANIFESTO_ASSETS_BUILD03.json','utf8'));
 const {createHash}=await import('node:crypto');
+const mapBrandAssets=[
+ {file:'/assets/borjao/localizacao/mascote-mapa.png',sha256:'9d74d013a8ff2277610738a0de811fc8762f232a09ea617579db3198d33b30d7'},
+ {file:'/assets/borjao/localizacao/logo-borjao-oficial.png',sha256:'32ff64919086e2134e372a3d8cdd705dde4a67fb118ed40cc4b9a13837acef35'}
+];
+for(const asset of mapBrandAssets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256,'Map artwork must match the official PNG supplied by the user');}
+
 assert.equal(Object.keys(mediaSlots).length,11);
 for(const asset of manifest.assets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
 const report={date:new Date().toISOString(),baseURL:process.env.BASE_URL||'http://127.0.0.1:4173',viewports:[],checks:[],originalAssetsVerified:originals.length,mediaSlots:11,geometryCompared:Boolean(geometryBase)};
@@ -137,7 +143,29 @@ try{
   await page.evaluate(()=>{for(const im of document.images)im.loading='eager';return Promise.all([...document.images].map(im=>im.decode().catch(()=>{})));});
   const activeSlots=await page.locator('[data-media-slot]').evaluateAll(nodes=>nodes.map(n=>n.dataset.mediaSlot));assert.deepEqual([...new Set(activeSlots)].sort(),Object.keys(mediaSlots).sort());for(const id of activeSlots)assert(id in mediaSlots,`Unknown slot ${id}`);assert.equal(await page.locator('iframe').count(),0);
   const requestedPhotos=requests.filter(url=>Object.values(content.photos).some(name=>url.includes(name)));assert.deepEqual(requestedPhotos,[],'Old documentary images must not be requested');
-  const unexpectedImages=await page.locator('img').evaluateAll(nodes=>nodes.filter(n=>!['logo-dark.png','logo-light.png'].some(name=>n.src.endsWith('/'+name))&&!n.src.includes('/assets/borjao/final-v1/')).map(n=>n.src));assert.deepEqual(unexpectedImages,[]);
+  const unexpectedImages=await page.locator('img').evaluateAll((nodes,approved)=>nodes.filter(n=>!['logo-dark.png','logo-light.png'].some(name=>n.src.endsWith('/'+name))&&!n.src.includes('/assets/borjao/final-v1/')&&!approved.includes(new URL(n.src).pathname)).map(n=>n.src),mapBrandAssets.map(a=>a.file));assert.deepEqual(unexpectedImages,[]);
+  assert.equal(await page.locator('.map-brand-marker').count(),1,'Only one map identity marker');
+  assert.equal(await page.locator('.map-mascot-slot').getAttribute('aria-hidden'),'true','Illustrative marker must not imply an interactive real map');
+  const mapBrandGeometry=await page.locator('.map-brand-marker').evaluate(group=>{
+   const rect=e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
+   const images=[...group.querySelectorAll('img')].map(im=>{
+    const canvas=document.createElement('canvas');canvas.width=im.naturalWidth;canvas.height=im.naturalHeight;const ctx=canvas.getContext('2d');ctx.drawImage(im,0,0);
+    return {src:new URL(im.src).pathname,native:[im.naturalWidth,im.naturalHeight],box:rect(im),transform:getComputedStyle(im).transform,cornerAlpha:[[0,0],[canvas.width-1,0],[0,canvas.height-1],[canvas.width-1,canvas.height-1]].map(([x,y])=>ctx.getImageData(x,y,1,1).data[3])};
+   });
+   const plaque=group.querySelector('.map-logo-plaque'),shadow=group.querySelector('.map-marker-shadow');
+   return {group:rect(group),slot:rect(group.parentElement),map:rect(document.querySelector('.location-map-window')),plaque:rect(plaque),background:getComputedStyle(plaque).backgroundColor,shadow:rect(shadow),shadowFilter:getComputedStyle(shadow).filter,ring:getComputedStyle(shadow,'::after').content,images,protected:[...document.querySelectorAll('.location-heading,.map-label,.location-card')].map(rect)};
+  });
+  const within=(a,b)=>a.left>=b.left-.1&&a.right<=b.right+.1&&a.top>=b.top-.1&&a.bottom<=b.bottom+.1;
+  const overlaps=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+  assert(within(mapBrandGeometry.group,mapBrandGeometry.slot),'Identity composition must stay inside the map coordinate field');
+  if(width<761)assert(within(mapBrandGeometry.group,mapBrandGeometry.map),'Mobile marker must stay inside the existing map window');
+  for(const r of mapBrandGeometry.protected)assert(!overlaps(mapBrandGeometry.group,r),'Marker must not cover heading, location label or contact surface');
+  assert.deepEqual(mapBrandGeometry.images.map(im=>im.src),mapBrandAssets.map(a=>a.file),'Use exactly the two approved official files');
+  assert.deepEqual(mapBrandGeometry.images.map(im=>im.native),[[1254,1254],[2172,724]]);
+  for(const im of mapBrandGeometry.images){assert.deepEqual(im.cornerAlpha,[0,0,0,0],'Official PNG corners must remain transparent');assert.equal(im.transform,'none','Official artwork must not be skewed or mirrored');assert(Math.abs(im.box.width/im.box.height-im.native[0]/im.native[1])<.01,'Official artwork proportions must be preserved');}
+  assert(mapBrandGeometry.images[0].box.right<=mapBrandGeometry.plaque.left+.1,'Logo plaque must sit beside, without covering the mascot');
+  assert.equal(mapBrandGeometry.background,'rgb(255, 255, 255)');assert.equal(mapBrandGeometry.shadowFilter,'none','Marker must not rely on artificial blur');assert.notEqual(mapBrandGeometry.ring,'none');
+  assert(mapBrandGeometry.shadow.width<mapBrandGeometry.images[0].box.width&&mapBrandGeometry.shadow.height<mapBrandGeometry.images[0].box.height*.4,'Ground marker must remain discreet');
   const textOverflow=await page.locator('h1,h2,h3,.button,.plan-price').evaluateAll(nodes=>nodes.filter(n=>n.scrollWidth>n.clientWidth+2).map(n=>n.textContent));assert.deepEqual(textOverflow,[],`Text overflow at ${width}`);
   for(const asset of manifest.assets){const res=await page.request.get(report.baseURL+asset.file);assert.equal(res.status(),200);}
   const mapLinks=await page.locator('#contato a').evaluateAll(links=>links.map(a=>a.href));assert(mapLinks.filter(u=>u.startsWith(content.contact.maps)).length>=2);
@@ -149,9 +177,9 @@ try{
    for(const id of ['inicio','academia','estrutura','modalidades','expansao','experiencia','avaliacoes','planos','contato']){await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(1,1);await page.locator(`#${id}`).screenshot({path:`${qaDir}/${id}-${width}.png`});}
    await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(1,1);await page.locator('footer').screenshot({path:`${qaDir}/footer-${width}.png`});
   }
-  console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
+  console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,mapBrandGeometry,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
  }
  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await page.goto(report.baseURL);assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');await page.close();
- report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','prefers-reduced-motion'];
+ report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','two official map PNGs match source hashes, preserve alpha and aspect ratio; one noninteractive marker stays inside map without covering protected content','prefers-reduced-motion'];
  await writeFile(`${qaDir}/results.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();localServer?.close();}
