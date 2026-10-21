@@ -53,10 +53,12 @@ try{
      let clearance=Infinity;
      const ys=[...Array.from({length:49},(_,step)=>r.height*step/48),...points.map(p=>p[1])];
      for(const y of ys){const nativeY=(r.top-rail.top+y)*scale;clearance=Math.min(clearance,(r.left-rail.left+leftAt(y))*scale-edge(nativeY));}
-     return {left:r.left,topLeft:r.left+leftAt(0),bottomLeft:r.left+leftAt(r.height),top:r.top-rail.top,bottom:r.bottom-rail.top,height:r.height,right:r.right,clearance,transform:getComputedStyle(e).transform,vertices:points};
+     const leftBend=Math.max(...ys.map(y=>Math.abs(leftAt(y)-(leftAt(0)+(leftAt(r.height)-leftAt(0))*y/r.height))));
+     const outerOffsets=ys.map(y=>(r.left-rail.left+leftAt(y))*scale-(1316-(r.top-rail.top+y)*scale/2));
+     return {leftBend,outerClearance:Math.min(...outerOffsets),outerOffsetSpread:Math.max(...outerOffsets)-Math.min(...outerOffsets),left:r.left,topLeft:r.left+leftAt(0),bottomLeft:r.left+leftAt(r.height),top:r.top-rail.top,bottom:r.bottom-rail.top,height:r.height,right:r.right,clearance,transform:getComputedStyle(e).transform,vertices:points};
     });
     const grid=document.querySelector('.structure-grid').getBoundingClientRect();
-    return {hero:ratio('#inicio'),academy:ratio('#academia'),structureRatio:grid.width/grid.height,railHeight:rail.height,cards};
+    return {hero:ratio('#inicio'),academy:ratio('#academia'),structureRatio:grid.width/grid.height,railHeight:rail.height,cards,railShadow:getComputedStyle(document.querySelector('.plan-list')).filter,railClip:getComputedStyle(document.querySelector('.plan-list')).clipPath};
    });
    for(const key of ['hero','academy']){assert(Math.abs(compositionGeometry[key].ratio-1672/941)<.002,`${key}: master frame cropped at ${width}`);assert.equal(compositionGeometry[key].fit,'contain');}
    assert(compositionGeometry.structureRatio>2.8,'Structure must remain horizontal');
@@ -71,6 +73,10 @@ try{
    assert(compositionGeometry.cards[4].left>compositionGeometry.cards[3].left,'Annual plan must return right after the chevron inflection');
    assert(compositionGeometry.cards[4].topLeft>compositionGeometry.cards[3].topLeft,'Annual top edge must follow the lower return');
    assert(compositionGeometry.cards[3].bottomLeft>compositionGeometry.cards[3].topLeft,'Semestral left edge must turn right around the mineral fold');
+   assert(compositionGeometry.cards[3].leftBend<.1,`Semestral left edge must be straight, without a broken lower corner: ${compositionGeometry.cards[3].leftBend}px`);
+   assert(compositionGeometry.cards[4].outerClearance>=19,'Annual must clear the outer crease (878,876) → (804,1024)');
+   assert(compositionGeometry.cards[4].outerOffsetSpread<.1,'Annual left edge must remain parallel to the main outer crease');
+   assert(compositionGeometry.railShadow.includes('drop-shadow'),'Plan depth belongs on the unclipped parent layer');assert.equal(compositionGeometry.railClip,'none');
   }
   const overflow=await page.evaluate(()=>({window:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&(r.left<-.5||r.right>innerWidth+.5)&&getComputedStyle(el).position!=='absolute'&&!el.closest('.hero,.academy,.pricing,.footer,.location,.structure-grid');}).map(el=>`${el.tagName}.${el.className}`).slice(0,15)}));
   assert(overflow.scroll<=width+1,`Horizontal overflow at ${width}: ${JSON.stringify(overflow)}`);
@@ -146,6 +152,6 @@ try{
   console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
  }
  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await page.goto(report.baseURL);assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');await page.close();
- report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron including annual right return; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','prefers-reduced-motion'];
+ report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','prefers-reduced-motion'];
  await writeFile(`${qaDir}/results.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();localServer?.close();}

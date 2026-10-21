@@ -298,16 +298,14 @@
 .pricing-intro .eyebrow {font-size:.8cqw;margin-bottom:2cqw;}
 .pricing-intro h2 {font-size:5.2cqw;line-height:.93;}
 .pricing-intro>p:not(.eyebrow) {font-size:1.5cqw;line-height:1.3;max-width:30cqw;margin-top:1.3cqw;}
-.plan-list {position:absolute;inset:0;}
+.plan-list {position:absolute;inset:0;filter:drop-shadow(0 .45cqw .5cqw #18232c2b);}
 .plan {
-  --row:0;--rail-start:6.4cqw;--row-step:11.7cqw;--card-height:10.2cqw;--mineral-fold:54.1667cqw;--safe-inset:1.3021cqw;
+  --row:0;--rail-start:6.4cqw;--row-step:11.7cqw;--card-height:10.2cqw;--safe-inset:1.3021cqw;
   --row-y:calc(var(--rail-start) + var(--row) * var(--row-step));
   --row-end:calc(var(--row-y) + var(--card-height));
   /* Limite mineral do master 1536×1024: (1080,0), (768,640), (832,768), (704,1024). */
   --top-edge:max(calc(70.3125cqw - var(--row-y) * .4875),min(calc(29.1667cqw + var(--row-y) * .5),calc(79.1667cqw - var(--row-y) * .5)));
   --end-edge:max(calc(70.3125cqw - var(--row-end) * .4875),min(calc(29.1667cqw + var(--row-end) * .5),calc(79.1667cqw - var(--row-end) * .5)));
-  --turn-y:clamp(var(--row-y),50cqw,var(--row-end));
-  --turn-edge:max(calc(70.3125cqw - var(--turn-y) * .4875),min(calc(29.1667cqw + var(--turn-y) * .5),calc(79.1667cqw - var(--turn-y) * .5)));
   --card-left:var(--end-edge);
   --top-inset:calc(var(--top-edge) - var(--card-left));
   --plan-contour:polygon(var(--top-inset) 0,100% 0,100% 100%,0 100%);
@@ -318,11 +316,12 @@
 .plan:nth-child(3) {--row:2;}
 .plan:nth-child(4) {
   --row:3;--card-left:var(--top-edge);
-  --plan-contour:polygon(0 0,100% 0,100% 100%,calc(var(--end-edge) - var(--card-left)) 100%,calc(var(--turn-edge) - var(--card-left)) calc(var(--turn-y) - var(--row-y)));
+  --plan-contour:polygon(0 0,100% 0,100% 100%,calc(var(--card-height) * .5) 100%);
 }
 .plan:nth-child(5) {
-  --row:4;--card-left:calc(var(--mineral-fold) - var(--card-height) * .25);
-  --top-inset:calc(var(--card-height) * .3);
+  /* Linha externa do master: (878,876) → (804,1024), x = 1316 − y/2. */
+  --row:4;--card-left:calc(85.6770833cqw - var(--row-end) * .5);
+  --top-inset:calc(var(--card-height) * .5);
 }
 .plan-surface {display:grid;grid-template-columns:56% minmax(0,44%);height:100%;border-radius:inherit;background:linear-gradient(120deg,#fff,#e8ecec);clip-path:var(--plan-contour);}
 .plan-copy {display:flex;align-items:center;gap:.75cqw;padding:.8cqw .5cqw .8cqw 3.4cqw;min-width:0;}
@@ -427,7 +426,7 @@
  .pricing-intro h2 {font-size:40px;line-height:.98;max-width:380px;}
  .pricing-intro h2>br:first-child {display:none;}
  .pricing-intro>p:not(.eyebrow) {font-size:14px;line-height:1.4;max-width:340px;margin-top:16px;}
- .plan-list {position:static;display:flex;flex-direction:column;gap:12px;width:100%;}
+ .plan-list {position:static;display:flex;flex-direction:column;gap:12px;width:100%;filter:none;}
  .plan:nth-child(n) {--card-height:136px;--card-cut:14px;--plan-contour:polygon(var(--card-cut) 0,100% 0,100% 100%,0 100%);position:relative;inset:auto;width:100%;height:var(--card-height);}
  .plan-surface {grid-template-columns:56% minmax(0,44%);}
  .plan-copy {gap:8px;padding:14px 5px 14px 16px;}
