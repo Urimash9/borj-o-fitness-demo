@@ -46,14 +46,14 @@ try{
     // Independent samples of the photo/mineral boundary in the approved master.
     const edge=y=>y<=640?1080-(1080-768)*y/640:y<=768?768+(832-768)*(y-640)/128:832-(y-768)/2;
     const cards=[...document.querySelectorAll('.plan')].map(e=>{
-     const r=e.getBoundingClientRect(),cut=r.height*Number(getComputedStyle(e).getPropertyValue('--card-cut-ratio'));
+     const r=e.getBoundingClientRect(),clip=getComputedStyle(e).clipPath;
+     const points=clip.slice(8,-1).split(',').map(part=>part.trim().split(/\s+/).map((value,axis)=>Number.parseFloat(value)*(value.endsWith('%')?(axis?r.height:r.width)/100:1)));
+     // Sample the actual rendered polygon rather than the CSS positioning variables.
+     const leftAt=y=>{const xs=[];for(let i=0;i<points.length;i++){const [x1,y1]=points[i],[x2,y2]=points[(i+1)%points.length];if(Math.abs(y2-y1)<.001){if(Math.abs(y-y1)<.001)xs.push(x1,x2);}else if(y>=Math.min(y1,y2)-.001&&y<=Math.max(y1,y2)+.001)xs.push(x1+(x2-x1)*(y-y1)/(y2-y1));}return Math.min(...xs);};
      let clearance=Infinity;
-     for(let step=0;step<=24;step++){
-      const t=step/24,y=(r.top-rail.top+r.height*t)*scale;
-      const x=(r.left-rail.left+cut*(1-t))*scale;
-      clearance=Math.min(clearance,x-edge(y));
-     }
-     return {left:r.left,top:r.top-rail.top,bottom:r.bottom-rail.top,right:r.right,clearance,transform:getComputedStyle(e).transform};
+     const ys=[...Array.from({length:49},(_,step)=>r.height*step/48),...points.map(p=>p[1])];
+     for(const y of ys){const nativeY=(r.top-rail.top+y)*scale;clearance=Math.min(clearance,(r.left-rail.left+leftAt(y))*scale-edge(nativeY));}
+     return {left:r.left,topLeft:r.left+leftAt(0),bottomLeft:r.left+leftAt(r.height),top:r.top-rail.top,bottom:r.bottom-rail.top,height:r.height,right:r.right,clearance,transform:getComputedStyle(e).transform,vertices:points};
     });
     const grid=document.querySelector('.structure-grid').getBoundingClientRect();
     return {hero:ratio('#inicio'),academy:ratio('#academia'),structureRatio:grid.width/grid.height,railHeight:rail.height,cards};
@@ -64,8 +64,13 @@ try{
     assert.equal(card.transform,'none','Plan text and icons must not be skewed');
     assert(card.clearance>=19,`Plan ${i+1} crosses mineral safe area at ${width}: ${card.clearance}`);
     assert(card.top>=0&&card.bottom<=compositionGeometry.railHeight&&card.right<=width,`Plan ${i+1} outside section`);
-    if(i)assert(card.left<compositionGeometry.cards[i-1].left,'Plan edges must progress along the diagonal');
+    if(i>0&&i<4)assert(card.topLeft<compositionGeometry.cards[i-1].topLeft,'First four plan edges must open along the diagonal');
+    assert(Math.abs(card.right-compositionGeometry.cards[0].right)<.1,'Plan right edges must align');assert(Math.abs(card.height-compositionGeometry.cards[0].height)<.1,'Plan heights must be consistent');
+    if(i>1)assert(Math.abs((card.top-compositionGeometry.cards[i-1].top)-(compositionGeometry.cards[1].top-compositionGeometry.cards[0].top))<.1,'Vertical spacing must be regular');
    });
+   assert(compositionGeometry.cards[4].left>compositionGeometry.cards[3].left,'Annual plan must return right after the chevron inflection');
+   assert(compositionGeometry.cards[4].topLeft>compositionGeometry.cards[3].topLeft,'Annual top edge must follow the lower return');
+   assert(compositionGeometry.cards[3].bottomLeft>compositionGeometry.cards[3].topLeft,'Semestral left edge must turn right around the mineral fold');
   }
   const overflow=await page.evaluate(()=>({window:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&(r.left<-.5||r.right>innerWidth+.5)&&getComputedStyle(el).position!=='absolute'&&!el.closest('.hero,.academy,.pricing,.footer,.location,.structure-grid');}).map(el=>`${el.tagName}.${el.className}`).slice(0,15)}));
   assert(overflow.scroll<=width+1,`Horizontal overflow at ${width}: ${JSON.stringify(overflow)}`);
@@ -141,6 +146,6 @@ try{
   console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
  }
  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await page.goto(report.baseURL);assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');await page.close();
- report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','plan contours stay inside the mineral diagonal; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','prefers-reduced-motion'];
+ report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron including annual right return; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','prefers-reduced-motion'];
  await writeFile(`${qaDir}/results.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();localServer?.close();}
