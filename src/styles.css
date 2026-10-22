@@ -461,10 +461,21 @@
 .hero-caption .art-note{font-size:7px;opacity:.85}
 .academy-art{object-position:center bottom}
 .academy:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#061017db,transparent 53%)}
-/* Junção decorativa sobreposta: mantém o quadro e a altura das duas seções. */
-.academy::after {
- content:'';position:absolute;inset:0 0 auto;height:32px;z-index:1;pointer-events:none;
- background:linear-gradient(120deg,transparent 36%,var(--blue) 36% 64%,transparent 64%) var(--gutter) 0 / 48px 100% no-repeat,#0b1116;
+/* Transição mineral entre os quadros completos da Hero e da Academia. */
+.hero-academy-transition {
+ position:relative;isolation:isolate;overflow:hidden;height:64px;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+ background:#eef0f3;color:#4b5057;
+}
+.hero-academy-transition::before {
+ content:'';width:clamp(28px,7.8vw,36px);height:3px;flex-shrink:0;background:var(--blue);
+}
+.hero-academy-transition::after {
+ content:'';position:absolute;inset:0;z-index:-1;background:#e4e6e9;
+ clip-path:polygon(0 0,40% 100%,0 100%);
+}
+.hero-academy-transition p {
+ font-size:8px;font-weight:500;line-height:1.4;letter-spacing:.5em;text-align:center;white-space:nowrap;
 }
 .academy-city{clip-path:none;background:none;pointer-events:none}
 .academy-city .art-note{position:absolute;bottom:15px;left:var(--gutter);color:white;text-shadow:0 1px 3px #000}
@@ -580,7 +591,8 @@
  .hero-caption {display:none;}
 
  .academy {height:auto;min-height:0;aspect-ratio:9 / 16;}
- .academy::after {height:24px;}
+ .hero-academy-transition {height:clamp(40px,11vw,64px);gap:8px;}
+ .hero-academy-transition p {font-size:6px;letter-spacing:.3em;}
  .academy-art {object-fit:contain;object-position:center;}
  .academy:before {background:linear-gradient(90deg,#061017db,#06101799 36%,transparent 74%);}
  .academy-content {position:absolute;inset:0;width:calc(100% - 44px);height:100%;padding:0;}
