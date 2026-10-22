@@ -1,19 +1,22 @@
-// BUILD 03: approved desktop masters. Mobile uses explicit CSS framing, pending vertical art.
+// Desktop masters preserved; BUILD 04 integrates the four supplied vertical mobile backgrounds.
 export const mediaSlots = {
   "hero-composicao": {
     "id": "hero-composicao",
     "section": "01",
     "label": "hero-composicao",
     "alt": "Composição ilustrativa: ambiente, cidade, fachada e figura humana.",
-    "status": "integrated-desktop-mobile-approximation",
+    "status": "integrated-desktop-mobile",
     "desktop": {
       "source": "/assets/borjao/final-v1/borjao-s01-hero-composicao-desktop.webp",
       "width": 1672,
       "height": 941
     },
     "mobile": {
-      "source": null,
-      "status": "vertical-art-pending"
+      "width": 853,
+      "height": 1280,
+      "sha256": "79e20580c0065dcbf13b75f38256b459515c1b405cf620deaade0fafd7bfb898",
+      "source": "/assets/borjao/mobile/borjao-hero-mobile.jpg",
+      "status": "integrated-approved-mobile"
     },
     "sha256": "cd1b641acc580625a840353f63fe0dd2bf2ddff9fe3fafe0400517df41a72e1b"
   },
@@ -22,15 +25,18 @@ export const mediaSlots = {
     "section": "02",
     "label": "academia-composicao",
     "alt": "Composição ilustrativa da academia com escada e cidade.",
-    "status": "integrated-desktop-mobile-approximation",
+    "status": "integrated-desktop-mobile",
     "desktop": {
       "source": "/assets/borjao/final-v1/borjao-s02-academia-composicao-desktop.webp",
       "width": 1672,
       "height": 941
     },
     "mobile": {
-      "source": null,
-      "status": "vertical-art-pending"
+      "width": 720,
+      "height": 1280,
+      "sha256": "22caf56593eb6f3ebbb3a5f1049f6db797d0671a2eb95361acc8bba6862429c4",
+      "source": "/assets/borjao/mobile/borjao-academia-mobile.jpg",
+      "status": "integrated-approved-mobile"
     },
     "sha256": "96ee14b1043af7cb3ed2a4f8cfb6d71ccd5333e96a6dc23dd94c4424970a0ded"
   },
@@ -158,15 +164,18 @@ export const mediaSlots = {
     "section": "08",
     "label": "planos-composicao",
     "alt": "Cena de orientação e diagonal mineral, arte ilustrativa.",
-    "status": "integrated-desktop-mobile-approximation",
+    "status": "integrated-desktop-mobile",
     "desktop": {
       "source": "/assets/borjao/final-v1/borjao-s08-planos-composicao-desktop.webp",
       "width": 1536,
       "height": 1024
     },
     "mobile": {
-      "source": null,
-      "status": "vertical-art-pending"
+      "width": 720,
+      "height": 1280,
+      "sha256": "4d81d153f6cffb00a604a4a50224e23f17ffa26f0b121d77cfca3b9fc1affa69",
+      "source": "/assets/borjao/mobile/borjao-planos-mobile.jpg",
+      "status": "integrated-approved-mobile"
     },
     "sha256": "db364a944f908708937506c0397845656ef3d485edb5a9711169f34a484b891b"
   },
@@ -175,15 +184,18 @@ export const mediaSlots = {
     "section": "09",
     "label": "localizacao-composicao",
     "alt": "Fachada e mapa ilustrativos; consulte o Google Maps para a localização real.",
-    "status": "integrated-desktop-mobile-approximation",
+    "status": "integrated-desktop-mobile",
     "desktop": {
       "source": "/assets/borjao/final-v1/borjao-s09-localizacao-composicao-desktop.webp",
       "width": 1536,
       "height": 1024
     },
     "mobile": {
-      "source": null,
-      "status": "vertical-art-pending"
+      "width": 720,
+      "height": 1280,
+      "sha256": "38c1c52c3667436b7511f1a00cde5e82a8a6f22bac46e467ca769852cadb981a",
+      "source": "/assets/borjao/mobile/borjao-localizacao-mobile.jpg",
+      "status": "integrated-approved-mobile"
     },
     "sha256": "8247e34a36c014c1bc12a14ab8864ecfeb9e0a2aaa921f57fcaf292c612c2392"
   }

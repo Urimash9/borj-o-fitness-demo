@@ -8,7 +8,7 @@ await cp('src/main.js','dist/main.js');
 await cp('src/content.mjs','dist/content.mjs');
 await cp('src/media-slots.mjs','dist/media-slots.mjs');
 const html=renderHome();
-for(const match of html.matchAll(/\s(?:src|href)="(\/(?:assets|fonts)\/[^"?#]+)"/g)) await readFile(`dist${match[1]}`);
+for(const match of html.matchAll(/\s(?:src|href|srcset)="(\/(?:assets|fonts)\/[^"?#]+)"/g)) await readFile(`dist${match[1]}`);
 await writeFile('dist/index.html',html);
 await writeFile('dist/robots.txt','User-agent: *\nDisallow: /\n');
 console.log('Build complete: nine semantic sections + footer; all local HTML asset references resolved.');

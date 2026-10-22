@@ -1,0 +1,45 @@
+{
+  "build": "04",
+  "assets": [
+    {
+      "original": "1-1000037980.jpg",
+      "slot": "hero",
+      "file": "/assets/borjao/mobile/borjao-hero-mobile.jpg",
+      "width": 853,
+      "height": 1280,
+      "sha256": "79e20580c0065dcbf13b75f38256b459515c1b405cf620deaade0fafd7bfb898",
+      "role": "clean-background-with-embedded-brand",
+      "embeddedUI": false
+    },
+    {
+      "original": "2-1000037981.jpg",
+      "slot": "academia",
+      "file": "/assets/borjao/mobile/borjao-academia-mobile.jpg",
+      "width": 720,
+      "height": 1280,
+      "sha256": "22caf56593eb6f3ebbb3a5f1049f6db797d0671a2eb95361acc8bba6862429c4",
+      "role": "clean-background",
+      "embeddedUI": false
+    },
+    {
+      "original": "3-1000038036.jpg",
+      "slot": "planos",
+      "file": "/assets/borjao/mobile/borjao-planos-mobile.jpg",
+      "width": 720,
+      "height": 1280,
+      "sha256": "4d81d153f6cffb00a604a4a50224e23f17ffa26f0b121d77cfca3b9fc1affa69",
+      "role": "clean-background",
+      "embeddedUI": false
+    },
+    {
+      "original": "4-1000038255.jpg",
+      "slot": "localizacao",
+      "file": "/assets/borjao/mobile/borjao-localizacao-mobile.jpg",
+      "width": 720,
+      "height": 1280,
+      "sha256": "38c1c52c3667436b7511f1a00cde5e82a8a6f22bac46e467ca769852cadb981a",
+      "role": "clean-background",
+      "embeddedUI": false
+    }
+  ]
+}

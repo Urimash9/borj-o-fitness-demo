@@ -10,7 +10,7 @@ let chromium;
 try{({chromium}=require('playwright'));}catch{const modules=process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES;if(!modules)throw Error('Playwright is required for browser QA. Install it in the test environment.');({chromium}=require(path.join(modules,'playwright')));}
 let localServer;
 if(!process.env.BASE_URL){({server:localServer}=await import('./serve.mjs'));}
-const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=swiftshader']}: {})});
+const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']}: {})});
 const qaDir=process.env.QA_DIR||'qa/build03';
 await mkdir(qaDir,{recursive:true});
 const geometryBase=process.env.GEOMETRY_BASELINE?JSON.parse(await readFile(process.env.GEOMETRY_BASELINE,'utf8')):null;
@@ -29,6 +29,10 @@ for(const asset of mapBrandAssets){const bytes=await readFile(`public${asset.fil
 
 assert.equal(Object.keys(mediaSlots).length,11);
 for(const asset of manifest.assets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
+const mobileManifest=JSON.parse(await readFile('docs/assets-build04/MANIFESTO_ASSETS_MOBILE.json','utf8'));
+assert.equal(mobileManifest.assets.length,4);
+for(const asset of mobileManifest.assets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256,'Mobile background must match the supplied approved JPG');}
+const mobileSlots={'hero-composicao':'hero','academia-composicao':'academia','planos-composicao':'planos','localizacao-composicao':'localizacao'};
 const report={date:new Date().toISOString(),baseURL:process.env.BASE_URL||'http://127.0.0.1:4173',viewports:[],checks:[],originalAssetsVerified:originals.length,mediaSlots:11,geometryCompared:Boolean(geometryBase)};
 try{
  for(const width of [1536,1440,1280,1024,980,768,430,390,360,320]){
@@ -119,10 +123,11 @@ try{
   const reviewGeometry=()=>page.locator('.review-paper,.review-controls,.review-list').evaluateAll(nodes=>nodes.map(e=>{const r=e.getBoundingClientRect();return {width:r.width,height:r.height};}));
   const initialReviewGeometry=await reviewGeometry();
   for(let i=1;i<4;i++){await page.locator(`.review-dots [data-review="${i}"]`).click();assert.equal(await page.locator('.review-author strong').textContent(),content.reviews[i].author);assert.deepEqual(await reviewGeometry(),initialReviewGeometry,`Review composition shifts for entry ${i} at ${width}`);assert.equal(await page.locator('.review-dots [aria-current="true"]').getAttribute('data-review'),String(i));}
+  if(width<761){const clipped=await page.locator('.review-paper').evaluate(e=>{const box=e.getBoundingClientRect();return [...e.querySelectorAll('.review-summary,.review-author strong,.review-author>span')].filter(node=>{const range=document.createRange();range.selectNodeContents(node);const r=range.getBoundingClientRect();return r.left<box.left+15||r.right>box.right-15||r.bottom>box.bottom-15;}).map(n=>n.textContent);});assert.deepEqual(clipped,[],'Review ink must stay within the editorial surface margins');}
   await page.locator('.review-list-item').filter({hasText:'Wagner Martins'}).click();assert.equal(await page.locator('.review-author strong').textContent(),'Wagner Martins');
   const contactGeometry=await page.evaluate(()=>{
    const rect=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height};};
-   return {section:rect('#contato'),card:rect('.location-card'),facade:rect('.location-visual'),map:rect('.location-map-window'),buttons:[...document.querySelectorAll('.location-card .button')].map(e=>{const r=e.getBoundingClientRect();return {top:r.top,right:r.right,left:r.left,width:r.width};})};
+   return {section:rect('#contato'),card:rect('.location-card'),facade:rect('.location-visual'),map:rect('.map-mascot-slot'),buttons:[...document.querySelectorAll('.location-card .button')].map(e=>{const r=e.getBoundingClientRect();return {top:r.top,right:r.right,left:r.left,width:r.width};})};
   });
   const cg=contactGeometry;
   assert(cg.card.left>=0&&cg.card.right<=width,'Contact surface must fit viewport');assert(cg.card.top<cg.facade.bottom,'Contact surface must overlap the composition');
@@ -153,7 +158,7 @@ try{
     return {src:new URL(im.src).pathname,native:[im.naturalWidth,im.naturalHeight],box:rect(im),transform:getComputedStyle(im).transform,cornerAlpha:[[0,0],[canvas.width-1,0],[0,canvas.height-1],[canvas.width-1,canvas.height-1]].map(([x,y])=>ctx.getImageData(x,y,1,1).data[3])};
    });
    const plaque=group.querySelector('.map-logo-plaque'),shadow=group.querySelector('.map-marker-shadow');
-   return {group:rect(group),slot:rect(group.parentElement),map:rect(document.querySelector('.location-map-window')),plaque:rect(plaque),background:getComputedStyle(plaque).backgroundColor,shadow:rect(shadow),shadowFilter:getComputedStyle(shadow).filter,ring:getComputedStyle(shadow,'::after').content,images,protected:[...document.querySelectorAll('.location-heading,.map-label,.location-card')].map(rect)};
+   return {group:rect(group),slot:rect(group.parentElement),map:(()=>{const r=document.querySelector('.location-art').getBoundingClientRect();return {left:r.left+r.width*40/720,right:r.left+r.width*680/720,top:r.top+r.height*280/1280,bottom:r.top+r.height*580/1280};})(),plaque:rect(plaque),background:getComputedStyle(plaque).backgroundColor,shadow:rect(shadow),shadowFilter:getComputedStyle(shadow).filter,ring:getComputedStyle(shadow,'::after').content,images,protected:[...document.querySelectorAll('.location-heading,.map-label,.location-card')].map(rect)};
   });
   const within=(a,b)=>a.left>=b.left-.1&&a.right<=b.right+.1&&a.top>=b.top-.1&&a.bottom<=b.bottom+.1;
   const overlaps=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
@@ -166,6 +171,21 @@ try{
   assert(mapBrandGeometry.images[0].box.right<=mapBrandGeometry.plaque.left+.1,'Logo plaque must sit beside, without covering the mascot');
   assert.equal(mapBrandGeometry.background,'rgb(255, 255, 255)');assert.equal(mapBrandGeometry.shadowFilter,'none','Marker must not rely on artificial blur');assert.notEqual(mapBrandGeometry.ring,'none');
   assert(mapBrandGeometry.shadow.width<mapBrandGeometry.images[0].box.width&&mapBrandGeometry.shadow.height<mapBrandGeometry.images[0].box.height*.4,'Ground marker must remain discreet');
+  const selectedBackgrounds=await page.locator('.hero-art,.academy-art,.pricing-art,.location-art').evaluateAll(nodes=>nodes.map(im=>{const r=im.getBoundingClientRect(),style=getComputedStyle(im);return {slot:im.dataset.mediaSlot,path:new URL(im.currentSrc).pathname,width:r.width,height:r.height,fit:style.objectFit,filter:style.filter};}));
+  for(const im of selectedBackgrounds){
+   const expected=width<761?mobileManifest.assets.find(a=>a.slot===mobileSlots[im.slot]):mediaSlots[im.slot].desktop;
+   assert.equal(im.path,expected.file||expected.source,'Browser must select the approved source for its breakpoint');
+   assert.equal(im.fit,'contain','Approved master must stay complete');assert.equal(im.filter,'none','No artificial warm image treatment');
+   assert(Math.abs(im.width/im.height-expected.width/expected.height)<.002,'Background must not be distorted');
+  }
+  if(width<761){
+   for(const id of Object.keys(mobileSlots))assert(!requests.some(url=>new URL(url).pathname===mediaSlots[id].desktop.source),'Mobile must not download a cropped desktop background');
+   assert.equal(await page.locator('.site-header .logo').isVisible(),false,'Hero source already includes the official logo; do not duplicate it');
+   const academyStats=await page.locator('.academy .stat').evaluateAll(nodes=>nodes.map(e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,blur:getComputedStyle(e).backdropFilter};}));
+   for(let i=0;i<academyStats.length;i++){const c=academyStats[i];assert(c.blur.includes('blur(20px)'),'Academy cards need strong neutral glass blur');if(i)assert(c.left>academyStats[i-1].left&&c.top<academyStats[i-1].bottom,'Three academy cards must stay side by side');}
+   const order=await page.locator('.pricing-intro,.plan-list,.pricing-benefits,.pricing-benefits .actions').evaluateAll(nodes=>nodes.map(e=>e.getBoundingClientRect().top));assert.deepEqual(order,[...order].sort((a,b)=>a-b),'Mobile pricing order: introduction, plans, benefits, actions');
+   const paper=await page.locator('.review-paper').boundingBox();assert(paper.width/paper.height>(width>=360?1.3:1.1),'Mobile editorial review must be wider than tall');
+  }else assert.equal(await page.locator('.site-header .logo').isVisible(),true,'Desktop keeps its approved HTML logo');
   const textOverflow=await page.locator('h1,h2,h3,.button,.plan-price').evaluateAll(nodes=>nodes.filter(n=>n.scrollWidth>n.clientWidth+2).map(n=>n.textContent));assert.deepEqual(textOverflow,[],`Text overflow at ${width}`);
   for(const asset of manifest.assets){const res=await page.request.get(report.baseURL+asset.file);assert.equal(res.status(),200);}
   const mapLinks=await page.locator('#contato a').evaluateAll(links=>links.map(a=>a.href));assert(mapLinks.filter(u=>u.startsWith(content.contact.maps)).length>=2);
@@ -177,9 +197,13 @@ try{
    for(const id of ['inicio','academia','estrutura','modalidades','expansao','experiencia','avaliacoes','planos','contato']){await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(1,1);await page.locator(`#${id}`).screenshot({path:`${qaDir}/${id}-${width}.png`});}
    await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(1,1);await page.locator('footer').screenshot({path:`${qaDir}/footer-${width}.png`});
   }
-  console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,mapBrandGeometry,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
+  console.log(`Viewport ${width}: passed`);report.viewports.push({width,overflow:overflow.scroll,sections:9,plans:5,images:'approved-assets-decoded',oldPhotoRequests:requestedPhotos.length,slots:new Set(activeSlots).size,selectedBackgrounds,mapBrandGeometry,compositionGeometry,geometryDelta:geometryBase?geometryDelta:null,layoutShift:cls,javascriptErrors:errors,localNetworkErrors:failedLocal});await page.close();
  }
  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await page.goto(report.baseURL);assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');await page.close();
- report.checks=['ten widths without document overflow','17 original public files unchanged','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use two windows of the same approved master; no map iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','two official map PNGs match source hashes, preserve alpha and aspect ratio; one noninteractive marker stays inside map without covering protected content','prefers-reduced-motion'];
+ const responsivePage=await browser.newPage({viewport:{width:390,height:844}});
+ await responsivePage.goto(report.baseURL);
+ for(const w of [390,1440,360]){await responsivePage.setViewportSize({width:w,height:1000});await responsivePage.locator('.hero-art,.academy-art,.pricing-art,.location-art').evaluateAll(nodes=>nodes.forEach(im=>im.loading='eager'));await responsivePage.waitForFunction(expected=>[...document.querySelectorAll('.hero-art,.academy-art,.pricing-art,.location-art')].every(im=>im.currentSrc&&new URL(im.currentSrc).pathname===expected[im.dataset.mediaSlot]),Object.fromEntries(Object.keys(mobileSlots).map(id=>[id,w<761?mediaSlots[id].mobile.source:mediaSlots[id].desktop.source])));await responsivePage.evaluate(async()=>{await Promise.all([...document.querySelectorAll('.hero-art,.academy-art,.pricing-art,.location-art')].map(async im=>{im.loading='eager';await im.decode();}));});for(const im of await responsivePage.locator('.hero-art,.academy-art,.pricing-art,.location-art').evaluateAll(nodes=>nodes.map(im=>({id:im.dataset.mediaSlot,path:new URL(im.currentSrc).pathname}))))assert.equal(im.path,w<761?mediaSlots[im.id].mobile.source:mediaSlots[im.id].desktop.source,'Sources must respond to viewport changes without JavaScript activation');}
+ await responsivePage.close();
+ report.checks=['ten widths without document overflow','17 original public files unchanged','four approved mobile JPG hashes verified; native picture source selection and resize; complete undistorted mobile frames; no desktop downloads for those four slots on mobile','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use the approved vertical JPG; illustrative map with real route link, no iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','two official map PNGs match source hashes, preserve alpha and aspect ratio; one noninteractive marker stays inside map without covering protected content','prefers-reduced-motion'];
  await writeFile(`${qaDir}/results.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();localServer?.close();}
