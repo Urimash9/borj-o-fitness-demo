@@ -24,3 +24,16 @@ carousel.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefaul
 function swipe(el,callback){let start=null;el.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')start={x:e.clientX,y:e.clientY};});el.addEventListener('pointerup',e=>{if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;start=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.4)callback(dx<0?1:-1);});el.addEventListener('pointercancel',()=>{start=null;});}
 swipe(carousel.querySelector('.review-paper'),direction=>selectReview(reviewIndex+direction));
 swipe(panel.querySelector('figure'),direction=>{const selected=tabs.findIndex(t=>t.getAttribute('aria-selected')==='true');selectModality((selected+direction+tabs.length)%tabs.length);});
+
+// BUILD 03A.9 — ativação progressiva da cena mobile da localização.
+const mobileScene=document.querySelector('.location-mobile-scene');
+if(mobileScene&&window.matchMedia('(max-width:760px)').matches){
+  const preload=new Image();
+  preload.onload=()=>{
+    mobileScene.src=preload.src;
+    document.querySelector('.location')?.classList.add('location-mobile-ready');
+  };
+  // Falha segura: se o arquivo não estiver publicado, manter a composição anterior.
+  preload.onerror=()=>{};
+  preload.src=mobileScene.dataset.mobileSrc;
+}
