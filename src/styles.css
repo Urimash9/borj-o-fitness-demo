@@ -573,8 +573,8 @@
 
 /* BUILD 04 — mobile: fundos aprovados e conteúdo HTML, desktop preservado. */
 .media-picture {display:contents;}
+.eyebrow-number {display:none;}
 @media (max-width:760px) {
- .eyebrow-number {display:none;}
  .hero {height:auto;min-height:0;max-height:none;aspect-ratio:853 / 1280;background:#edf2f8;}
  .hero-art {object-fit:contain;object-position:center;}
  .hero-copy {position:absolute;top:19%;left:6%;width:68%;margin:0;padding:0;z-index:3;}
