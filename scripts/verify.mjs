@@ -29,11 +29,18 @@ for(const asset of mapBrandAssets){const bytes=await readFile(`public${asset.fil
 
 assert.equal(Object.keys(mediaSlots).length,11);
 for(const asset of manifest.assets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
+const expansionPeekAsset={file:'/assets/borjao/expansao/mascote-espiando.png',sha256:'053336e2fb1fbcd4f844c1834ead1f86e4bcced7d508248d3554fba310b98cbf'};
+assert.equal(createHash('sha256').update(await readFile(`public${expansionPeekAsset.file}`)).digest('hex'),expansionPeekAsset.sha256,'Peeking mascot must match the approved transparent PNG');
 const mobileManifest=JSON.parse(await readFile('docs/assets-build04/MANIFESTO_ASSETS_MOBILE.json','utf8'));
 assert.equal(mobileManifest.assets.length,4);
 for(const asset of mobileManifest.assets){const bytes=await readFile(`public${asset.file}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256,'Mobile background must match the supplied approved JPG');}
 const mobileSlots={'hero-composicao':'hero','academia-composicao':'academia','planos-composicao':'planos','localizacao-composicao':'localizacao'};
 const report={date:new Date().toISOString(),baseURL:process.env.BASE_URL||'http://127.0.0.1:4173',viewports:[],checks:[],originalAssetsVerified:originals.length,mediaSlots:11,geometryCompared:Boolean(geometryBase)};
+async function assertReviewInk(page,width){
+ if(width>=761)return;
+ const clipped=await page.locator('.review-paper').evaluate(e=>{const box=e.getBoundingClientRect();return [...e.querySelectorAll('.review-summary,.review-author strong,.review-author>span')].filter(node=>{const range=document.createRange();range.selectNodeContents(node);const r=range.getBoundingClientRect();return r.left<box.left+15||r.right>box.right-15||r.bottom>box.bottom-15;}).map(n=>n.textContent);});
+ assert.deepEqual(clipped,[],'Every review must stay within the editorial surface margins');
+}
 try{
  for(const width of [1536,1440,1280,1024,980,768,430,390,360,320]){
   const page=await browser.newPage({viewport:{width,height:1000},deviceScaleFactor:1,hasTouch:width<761});
@@ -121,8 +128,8 @@ try{
   await page.locator('[data-review-prev]').click();assert.equal(await page.locator('.review-author strong').textContent(),'Wagner Martins');
   await page.locator('.reviews-grid').focus();await page.keyboard.press('End');assert.equal(await page.locator('.review-author strong').textContent(),'Ubiratan Guimarães');await page.keyboard.press('Home');assert.equal(await page.locator('.review-author strong').textContent(),'Wagner Martins');
   const reviewGeometry=()=>page.locator('.review-paper,.review-controls,.review-list').evaluateAll(nodes=>nodes.map(e=>{const r=e.getBoundingClientRect();return {width:r.width,height:r.height};}));
-  const initialReviewGeometry=await reviewGeometry();
-  for(let i=1;i<4;i++){await page.locator(`.review-dots [data-review="${i}"]`).click();assert.equal(await page.locator('.review-author strong').textContent(),content.reviews[i].author);assert.deepEqual(await reviewGeometry(),initialReviewGeometry,`Review composition shifts for entry ${i} at ${width}`);assert.equal(await page.locator('.review-dots [aria-current="true"]').getAttribute('data-review'),String(i));}
+  const initialReviewGeometry=await reviewGeometry();await assertReviewInk(page,width);
+  for(let i=1;i<4;i++){await page.locator(`.review-dots [data-review="${i}"]`).click();assert.equal(await page.locator('.review-author strong').textContent(),content.reviews[i].author);assert.deepEqual(await reviewGeometry(),initialReviewGeometry,`Review composition shifts for entry ${i} at ${width}`);assert.equal(await page.locator('.review-dots [aria-current="true"]').getAttribute('data-review'),String(i));await assertReviewInk(page,width);}
   if(width<761){const clipped=await page.locator('.review-paper').evaluate(e=>{const box=e.getBoundingClientRect();return [...e.querySelectorAll('.review-summary,.review-author strong,.review-author>span')].filter(node=>{const range=document.createRange();range.selectNodeContents(node);const r=range.getBoundingClientRect();return r.left<box.left+15||r.right>box.right-15||r.bottom>box.bottom-15;}).map(n=>n.textContent);});assert.deepEqual(clipped,[],'Review ink must stay within the editorial surface margins');}
   await page.locator('.review-list-item').filter({hasText:'Wagner Martins'}).click();assert.equal(await page.locator('.review-author strong').textContent(),'Wagner Martins');
   const contactGeometry=await page.evaluate(()=>{
@@ -148,7 +155,7 @@ try{
   await page.evaluate(()=>{for(const im of document.images)im.loading='eager';return Promise.all([...document.images].map(im=>im.decode().catch(()=>{})));});
   const activeSlots=await page.locator('[data-media-slot]').evaluateAll(nodes=>nodes.map(n=>n.dataset.mediaSlot));assert.deepEqual([...new Set(activeSlots)].sort(),Object.keys(mediaSlots).sort());for(const id of activeSlots)assert(id in mediaSlots,`Unknown slot ${id}`);assert.equal(await page.locator('iframe').count(),0);
   const requestedPhotos=requests.filter(url=>Object.values(content.photos).some(name=>url.includes(name)));assert.deepEqual(requestedPhotos,[],'Old documentary images must not be requested');
-  const unexpectedImages=await page.locator('img').evaluateAll((nodes,approved)=>nodes.filter(n=>!['logo-dark.png','logo-light.png'].some(name=>n.src.endsWith('/'+name))&&!n.src.includes('/assets/borjao/final-v1/')&&!approved.includes(new URL(n.src).pathname)).map(n=>n.src),mapBrandAssets.map(a=>a.file));assert.deepEqual(unexpectedImages,[]);
+  const unexpectedImages=await page.locator('img').evaluateAll((nodes,approved)=>nodes.filter(n=>!['logo-dark.png','logo-light.png'].some(name=>n.src.endsWith('/'+name))&&!n.src.includes('/assets/borjao/final-v1/')&&!approved.includes(new URL(n.src).pathname)).map(n=>n.src),[...mapBrandAssets,expansionPeekAsset].map(a=>a.file));assert.deepEqual(unexpectedImages,[]);
   assert.equal(await page.locator('.map-brand-marker').count(),1,'Only one map identity marker');
   assert.equal(await page.locator('.map-mascot-slot').getAttribute('aria-hidden'),'true','Illustrative marker must not imply an interactive real map');
   const mapBrandGeometry=await page.locator('.map-brand-marker').evaluate(group=>{
@@ -186,6 +193,11 @@ try{
    const order=await page.locator('.pricing-intro,.plan-list,.pricing-benefits,.pricing-benefits .actions').evaluateAll(nodes=>nodes.map(e=>e.getBoundingClientRect().top));assert.deepEqual(order,[...order].sort((a,b)=>a-b),'Mobile pricing order: introduction, plans, benefits, actions');
    const paper=await page.locator('.review-paper').boundingBox();assert(paper.width/paper.height>(width>=360?1.3:1.1),'Mobile editorial review must be wider than tall');
   }else assert.equal(await page.locator('.site-header .logo').isVisible(),true,'Desktop keeps its approved HTML logo');
+  const sectionNumbers=page.locator('.eyebrow-number');assert.equal(await sectionNumbers.count(),8);
+  for(const number of await sectionNumbers.all())assert.equal(await number.isVisible(),width>=761,'Only mobile section numbering is hidden');
+  assert.equal(await page.locator('.hero-caption').isVisible(),width>=761,'Hero microcaption remains desktop only');
+  assert.equal(await page.locator('.expansion-peek').isVisible(),width<761,'Peeking mascot belongs only to mobile');
+  if(width<761){assert.equal(await page.locator('.menu-toggle').innerText(),'Menu');assert.equal(await page.locator('.menu-toggle>span').count(),1,'Real header menu has one text label, no embedded hamburger bars');assert((await page.locator('.review-paper').evaluate(e=>getComputedStyle(e).clipPath)).includes('review-mobile-paper-cut'),'Mobile editorial paper uses the approved responsive cut');}
   const textOverflow=await page.locator('h1,h2,h3,.button,.plan-price').evaluateAll(nodes=>nodes.filter(n=>n.scrollWidth>n.clientWidth+2).map(n=>n.textContent));assert.deepEqual(textOverflow,[],`Text overflow at ${width}`);
   for(const asset of manifest.assets){const res=await page.request.get(report.baseURL+asset.file);assert.equal(res.status(),200);}
   const mapLinks=await page.locator('#contato a').evaluateAll(links=>links.map(a=>a.href));assert(mapLinks.filter(u=>u.startsWith(content.contact.maps)).length>=2);
@@ -204,6 +216,26 @@ try{
  await responsivePage.goto(report.baseURL);
  for(const w of [390,1440,360]){await responsivePage.setViewportSize({width:w,height:1000});await responsivePage.locator('.hero-art,.academy-art,.pricing-art,.location-art').evaluateAll(nodes=>nodes.forEach(im=>im.loading='eager'));await responsivePage.waitForFunction(expected=>[...document.querySelectorAll('.hero-art,.academy-art,.pricing-art,.location-art')].every(im=>im.currentSrc&&new URL(im.currentSrc).pathname===expected[im.dataset.mediaSlot]),Object.fromEntries(Object.keys(mobileSlots).map(id=>[id,w<761?mediaSlots[id].mobile.source:mediaSlots[id].desktop.source])));await responsivePage.evaluate(async()=>{await Promise.all([...document.querySelectorAll('.hero-art,.academy-art,.pricing-art,.location-art')].map(async im=>{im.loading='eager';await im.decode();}));});for(const im of await responsivePage.locator('.hero-art,.academy-art,.pricing-art,.location-art').evaluateAll(nodes=>nodes.map(im=>({id:im.dataset.mediaSlot,path:new URL(im.currentSrc).pathname}))))assert.equal(im.path,w<761?mediaSlots[im.id].mobile.source:mediaSlots[im.id].desktop.source,'Sources must respond to viewport changes without JavaScript activation');}
  await responsivePage.close();
- report.checks=['ten widths without document overflow','17 original public files unchanged','four approved mobile JPG hashes verified; native picture source selection and resize; complete undistorted mobile frames; no desktop downloads for those four slots on mobile','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use the approved vertical JPG; illustrative map with real route link, no iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','two official map PNGs match source hashes, preserve alpha and aspect ratio; one noninteractive marker stays inside map without covering protected content','prefers-reduced-motion'];
+ const entranceReport=[];
+ for(const scenario of [{width:360},{width:390},{width:430},{width:390,reduced:true},{width:390,noObserver:true}]){
+  const page=await browser.newPage({viewport:{width:scenario.width,height:844},reducedMotion:scenario.reduced?'reduce':'no-preference'});
+  await page.addInitScript(noObserver=>{window.__peekStarts=0;document.addEventListener('animationstart',e=>{if(e.animationName==='expansion-peek-in')window.__peekStarts++;},true);if(noObserver)delete window.IntersectionObserver;},Boolean(scenario.noObserver));
+  await page.goto(report.baseURL);await page.evaluate(()=>document.fonts.ready);
+  if(!scenario.reduced&&!scenario.noObserver)assert.equal(await page.locator('.expansion-peek').getAttribute('data-entrance'),'waiting');
+  const settle=async()=>{await page.locator('.expansion-media').scrollIntoViewIfNeeded();await page.locator('.expansion-peek img').evaluate(im=>im.decode());if(!scenario.noObserver)await page.waitForFunction(()=>document.querySelector('.expansion-peek').dataset.entrance==='shown');};
+  await settle();
+  const expected=scenario.reduced||scenario.noObserver?0:1;
+  assert.equal(await page.evaluate(()=>window.__peekStarts),expected,'First visibility must animate once, respecting reduced motion/fallback');
+  const final=await page.locator('.expansion-peek img').evaluate(im=>{const r=im.getBoundingClientRect(),s=getComputedStyle(im);return {ratio:r.width/r.height,opacity:s.opacity,transform:s.transform};});
+  assert(Math.abs(final.ratio-2200/715)<.002);assert.equal(final.opacity,'1');assert(['none','matrix(1, 0, 0, 1, 0, 0)'].includes(final.transform));
+  for(let i=0;i<2;i++){await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(80);await settle();await page.waitForTimeout(600);assert.equal(await page.evaluate(()=>window.__peekStarts),expected,'Scrolling back must never repeat the reveal');}
+  if(scenario.width===390&&!scenario.reduced&&!scenario.noObserver){
+   await page.setViewportSize({width:1440,height:1000});await page.setViewportSize({width:390,height:844});await settle();assert.equal(await page.evaluate(()=>window.__peekStarts),1,'Viewport changes must not replay a settled reveal');
+   await page.reload();await settle();assert.equal(await page.evaluate(()=>window.__peekStarts),1,'Reload starts a new page-load animation cycle');
+  }
+  entranceReport.push({...scenario,starts:expected,scrollReentry:'stable',final});await page.close();
+ }
+ report.expansionEntrance=entranceReport;
+ report.checks=['ten widths without document overflow','17 original public files unchanged','four approved mobile JPG hashes verified; native picture source selection and resize; complete undistorted mobile frames; no desktop downloads for those four slots on mobile','official copy and commercial data unchanged','11 approved WebP hashes match manifest','all 11 approved media slots rendered per view','zero documentary photo requests','mobile map and facade use the approved vertical JPG; illustrative map with real route link, no iframe','nine sections plus footer','one h1','five plans, including 3x/week confirmed by user on 2026-10-20','local anchors resolve','all local images decode','no JS exceptions or local 404','menu open, Escape, return focus and navigation close','modality click and keyboard synchronize image, alt, text and ARIA','review arrows, indicators, list, Home/End and swipe change author with stable geometry','five plan contours trace the mineral chevron; straight Semestral edge, Annual parallel to the outer crease, unclipped parent shadow; aligned right edges, regular heights and gaps; contextual WhatsApp links and unchanged prices','location proportions, overlapping contact surface and aligned actions','two official map PNGs match source hashes, preserve alpha and aspect ratio; one noninteractive marker stays inside map without covering protected content','mobile section labels without numbering; desktop numbering intact; real text menu and no hero microcaption on mobile','approved peeking PNG with one entrance per page load; no replay on scroll/resize; reduced-motion and no-IntersectionObserver static fallback','prefers-reduced-motion'];
  await writeFile(`${qaDir}/results.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();localServer?.close();}

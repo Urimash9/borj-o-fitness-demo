@@ -24,3 +24,26 @@ carousel.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefaul
 function swipe(el,callback){let start=null;el.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')start={x:e.clientX,y:e.clientY};});el.addEventListener('pointerup',e=>{if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;start=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.4)callback(dx<0?1:-1);});el.addEventListener('pointercancel',()=>{start=null;});}
 swipe(carousel.querySelector('.review-paper'),direction=>selectReview(reviewIndex+direction));
 swipe(panel.querySelector('figure'),direction=>{const selected=tabs.findIndex(t=>t.getAttribute('aria-selected')==='true');selectModality((selected+direction+tabs.length)%tabs.length);});
+
+// One reveal per page load; keep a visible static mascot without IntersectionObserver.
+const expansionPeek=document.querySelector('.expansion-peek');
+if(expansionPeek&&'IntersectionObserver' in window){
+ const mobile=matchMedia('(max-width:760px)'),reducedMotion=matchMedia('(prefers-reduced-motion:reduce)');
+ let revealed=false;
+ const observer=new IntersectionObserver(async entries=>{
+  if(revealed||!mobile.matches||!entries.some(entry=>entry.isIntersecting))return;
+  revealed=true;observer.disconnect();
+  await expansionPeek.querySelector('img').decode().catch(()=>{});
+  expansionPeek.dataset.entrance=mobile.matches&&!reducedMotion.matches?'entering':'shown';
+ },{threshold:.15});
+ const watch=()=>{
+  observer.disconnect();
+  if(revealed){expansionPeek.dataset.entrance='shown';return;}
+  if(!mobile.matches){delete expansionPeek.dataset.entrance;return;}
+  if(reducedMotion.matches){revealed=true;expansionPeek.dataset.entrance='shown';return;}
+  expansionPeek.dataset.entrance='waiting';
+  observer.observe(document.querySelector('.expansion-media'));
+ };
+ expansionPeek.addEventListener('animationend',event=>{if(event.animationName==='expansion-peek-in')expansionPeek.dataset.entrance='shown';});
+ mobile.addEventListener('change',watch);reducedMotion.addEventListener('change',watch);watch();
+}
